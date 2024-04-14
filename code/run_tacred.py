@@ -1,16 +1,10 @@
-# Copyright (c) 2019, Facebook, Inc. and its affiliates. All Rights Reserved
-"""
-Run BERT on several relation extraction benchmarks.
-Adding some special tokens instead of doing span pair prediction in this version.
-"""
-
 import argparse
 import logging
 import os
 import random
 import time
 import json
-
+from tqdm import tqdm
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
@@ -22,6 +16,8 @@ from pytorch_pretrained_bert.file_utils import PYTORCH_PRETRAINED_BERT_CACHE, WE
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
 from pytorch_pretrained_bert.tokenization import BertTokenizer
 from pytorch_pretrained_bert.optimization import BertAdam, warmup_linear
+from scorer import score
+
 
 CLS = "[CLS]"
 SEP = "[SEP]"
@@ -47,12 +43,8 @@ class InputExample(object):
 
 class InputFeatures(object):
     """A single set of features of data."""
-
-    def __init__(self, input_ids, input_mask, segment_ids, label_id):
-        self.input_ids = input_ids
-        self.input_mask = input_mask
-        self.segment_ids = segment_ids
-        self.label_id = label_id
+    def __init__(self, **kwargs):
+        self.__dict__.update(kwargs)
 
 
 class DataProcessor(object):
@@ -76,8 +68,8 @@ class DataProcessor(object):
 
     def get_test_examples(self, data_dir):
         """See base class."""
-        return self._create_examples(
-            self._read_json(os.path.join(data_dir, "test.json")), "test")
+        raw_data = self._read_json(os.path.join(data_dir, "test.json"))
+        return self._create_examples(raw_data, "test"), np.array(raw_data)
 
     def get_labels(self, data_dir, negative_label="no_relation"):
         """See base class."""
@@ -104,18 +96,40 @@ class DataProcessor(object):
             assert example['obj_start'] >= 0 and example['obj_start'] <= example['obj_end'] \
                 and example['obj_end'] < len(sentence)
             examples.append(InputExample(guid=example['id'],
-                             sentence=sentence,
-                             span1=(example['subj_start'], example['subj_end']),
-                             span2=(example['obj_start'], example['obj_end']),
-                             ner1=example['subj_type'],
-                             ner2=example['obj_type'],
-                             label=example['relation']))
+                            sentence=sentence,
+                            span1=(example['subj_start'], example['subj_end']),
+                            span2=(example['obj_start'], example['obj_end']),
+                            ner1=example['subj_type'],
+                            ner2=example['obj_type'],
+                            label=example['relation']))
         return examples
 
 
 def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, special_tokens, mode='text'):
     """Loads a data file into a list of `InputBatch`s."""
-
+    special_tokens = {
+        'SUBJ=ORGANIZATION': '[unused1]',
+        'SUBJ=PERSON': '[unused2]',
+        'OBJ=PERSON': '[unused3]',
+        'OBJ=ORGANIZATION': '[unused4]',
+        'OBJ=DATE': '[unused5]',
+        'OBJ=NUMBER': '[unused6]',
+        'OBJ=TITLE': '[unused7]',
+        'OBJ=COUNTRY': '[unused8]',
+        'OBJ=LOCATION': '[unused9]',
+        'OBJ=CITY': '[unused10]',
+        'OBJ=MISC': '[unused11]',
+        'OBJ=STATE_OR_PROVINCE': '[unused12]',
+        'OBJ=DURATION': '[unused13]',
+        'OBJ=NATIONALITY': '[unused14]',
+        'OBJ=CAUSE_OF_DEATH': '[unused15]',
+        'OBJ=CRIMINAL_CHARGE': '[unused16]',
+        'OBJ=RELIGION': '[unused17]',
+        'OBJ=URL': '[unused18]',
+        'OBJ=IDEOLOGY': '[unused19]'
+    }
+    kg = {}
+    object_offset = 3
 
     def get_special_token(w):
         if w not in special_tokens:
@@ -124,7 +138,6 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
 
     num_tokens = 0
     num_fit_examples = 0
-    num_shown_examples = 0
     features = []
     for (ex_index, example) in enumerate(examples):
         if ex_index % 10000 == 0:
@@ -137,6 +150,13 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
         OBJECT_END = get_special_token("OBJ_END")
         SUBJECT_NER = get_special_token("SUBJ=%s" % example.ner1)
         OBJECT_NER = get_special_token("OBJ=%s" % example.ner2)
+        subject_id, object_id = tokenizer.convert_tokens_to_ids([SUBJECT_NER, OBJECT_NER])
+        relation_id = label2id[example.label]
+        e1rel = (subject_id, relation_id)
+        if e1rel not in kg:
+            kg[e1rel] = set()
+        # Subtract offset so that the JRRELP loss labels are indexed correctly
+        kg[e1rel].add(object_id - object_offset)
 
         if mode.startswith("text"):
             for i, token in enumerate(example.sentence):
@@ -198,23 +218,21 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
         assert len(input_mask) == max_seq_length
         assert len(segment_ids) == max_seq_length
 
-        if num_shown_examples < 20:
-            if (ex_index < 5) or (label_id > 0):
-                num_shown_examples += 1
-                logger.info("*** Example ***")
-                logger.info("guid: %s" % (example.guid))
-                logger.info("tokens: %s" % " ".join(
-                        [str(x) for x in tokens]))
-                logger.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
-                logger.info("input_mask: %s" % " ".join([str(x) for x in input_mask]))
-                logger.info("segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
-                logger.info("label: %s (id = %d)" % (example.label, label_id))
-
         features.append(
                 InputFeatures(input_ids=input_ids,
                               input_mask=input_mask,
                               segment_ids=segment_ids,
-                              label_id=label_id))
+                              label_id=label_id,
+                              subject_id=subject_id
+                              ))
+        # Add KG outputs to features
+        for feature in features:
+            feature_subject = feature.subject_id
+            feature_label = feature.label_id
+            known_objects = list(kg[(feature_subject, feature_label)])
+
+            feature.known_objects = known_objects
+
     logger.info("Average #tokens: %.2f" % (num_tokens * 1.0 / len(examples)))
     logger.info("%d (%.2f %%) examples can fit max_seq_length = %d" % (num_fit_examples,
                 num_fit_examples * 100.0 / len(examples), max_seq_length))
@@ -224,7 +242,7 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
 def convert_token(token):
     """ Convert PTB tokens to normal tokens """
     if (token.lower() == '-lrb-'):
-            return '('
+        return '('
     elif (token.lower() == '-rrb-'):
         return ')'
     elif (token.lower() == '-lsb-'):
@@ -263,7 +281,48 @@ def compute_f1(preds, labels):
         return {'precision': prec, 'recall': recall, 'f1': f1}
 
 
-def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, verbose=True):
+def compute_structure_parts(data):
+    argdists = []
+    sentlens = []
+    for instance in data:
+        ss, se = instance['subj_start'], instance['subj_end']
+        os, oe = instance['obj_start'], instance['obj_end']
+        sentlens.append(len(instance['token']))
+        if ss > oe:
+            argdist = ss - oe
+        else:
+            argdist = os - se
+        argdists.append(argdist)
+    return {'argdists': argdists, 'sentlens': sentlens}
+
+
+def compute_structure_errors(parts, preds, gold_labels):
+    structure_errors = {'argdist=1': [], 'argdist>10': [], 'sentlen>30': []}
+    argdists = parts['argdists']
+    sentlens = parts['sentlens']
+    for i in range(len(argdists)):
+        argdist = argdists[i]
+        sentlen = sentlens[i]
+        pred = preds[i]
+        gold = gold_labels[i]
+        is_correct = pred == gold
+
+        if argdist <= 1:
+            structure_errors['argdist=1'].append(is_correct)
+        if argdist > 10:
+            structure_errors['argdist>10'].append(is_correct)
+        if sentlen > 30:
+            structure_errors['sentlen>30'].append(is_correct)
+    print('Structure Errors:')
+    for structure_name, error_list in structure_errors.items():
+        accuracy = round(np.mean(error_list) * 100., 4)
+        print('{} | Accuracy: {} | Correct: {} | Wrong: {} | Total: {} '.format(
+            structure_name, accuracy, sum(error_list), len(error_list) - sum(error_list), len(error_list)
+        ))
+    return structure_errors
+
+
+def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, verbose=True, raw_data=None):
     model.eval()
     eval_loss = 0
     nb_eval_steps = 0
@@ -274,7 +333,7 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, verbose
         segment_ids = segment_ids.to(device)
         label_ids = label_ids.to(device)
         with torch.no_grad():
-            logits = model(input_ids, segment_ids, input_mask, labels=None)
+            logits, _ = model(input_ids, segment_ids, input_mask, labels=None)
         loss_fct = CrossEntropyLoss()
         tmp_eval_loss = loss_fct(logits.view(-1, num_labels), label_ids.view(-1))
         eval_loss += tmp_eval_loss.mean().item()
@@ -286,7 +345,58 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, verbose
                 preds[0], logits.detach().cpu().numpy(), axis=0)
 
     eval_loss = eval_loss / nb_eval_steps
-    preds = np.argmax(preds[0], axis=1)
+    preds = np.argmax(preds[0], axis=1).reshape(-1)
+    pred_labels = [id2label[pred_id] for pred_id in preds]
+    eval_labels = [id2label[label_id] for label_id in eval_label_ids.numpy().reshape(-1)]
+    _, indices = score(eval_labels, pred_labels, verbose=verbose)
+
+    structure_parts = compute_structure_parts(raw_data)
+    compute_structure_errors(structure_parts, preds=pred_labels, gold_labels=eval_labels)
+
+    wrong_indices = indices['wrong_indices']
+    correct_indices = indices['correct_indices']
+    wrong_relations = indices['wrong_predictions']
+    correct_predictions = indices['correct_predictions']
+    all_predictions = indices['all_predictions']
+    wrong_ids = [d['id'] for d in raw_data[wrong_indices]]
+    correct_ids = [d['id'] for d in raw_data[correct_indices]]
+    all_ids = [d['id'] for d in raw_data]
+    print('Num Correct: {} | Num Wrong: {}'.format(len(correct_indices), len(wrong_indices)))
+    print('Wrong Predictions: {}')
+    print(Counter(wrong_relations))
+
+    ids = [instance['id'] for instance in raw_data]
+    formatted_data = []
+    for instance_id, pred, gold in zip(ids, pred_labels, eval_labels):
+        formatted_data.append(
+            {
+                "id": instance_id.replace("'", '"'),
+                "label_true": gold.replace("'", '"'),
+                "label_pred": pred.replace("'", '"')
+            }
+        )
+
+    id2preds = {d['id']: pred for d, pred in zip(raw_data, pred_labels)}
+
+    save_dir = None  # Specify where to save data
+    if save_dir is not None:
+        os.makedirs(save_dir, exist_ok=True)
+        print('saving to: {}'.format(save_dir))
+        np.savetxt(os.path.join(save_dir, 'correct_ids.txt'), correct_ids, fmt='%s')
+        np.savetxt(os.path.join(save_dir, 'wrong_ids.txt'), wrong_ids, fmt='%s')
+        np.savetxt(os.path.join(save_dir, 'wrong_predictions.txt'), wrong_relations, fmt='%s')
+        np.savetxt(os.path.join(save_dir, 'correct_predictions.txt'), correct_predictions, fmt='%s')
+        np.savetxt(os.path.join(save_dir, 'all_predictions.txt'), all_predictions, fmt='%s')
+        np.savetxt(os.path.join(save_dir, 'all_ids.txt'), all_ids, fmt='%s')
+
+        json.dump(id2preds, open(os.path.join(save_dir, 'id2preds.json'), 'w'))
+
+        with open(os.path.join(save_dir, 'spanbert_tacred.jsonl'), 'w') as handle:
+            print('Saving to: {}'.format(os.path.join(save_dir, 'spanbert_tacred.jsonl')))
+            for instance in formatted_data:
+                line = "{}\n".format(instance)
+                handle.write(line)
+
     result = compute_f1(preds, eval_label_ids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
     result['eval_loss'] = eval_loss
@@ -298,13 +408,8 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, verbose
 
 
 def main(args):
-    device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     n_gpu = torch.cuda.device_count()
-
-    if args.gradient_accumulation_steps < 1:
-        raise ValueError("Invalid gradient_accumulation_steps parameter: {}, should be >= 1".format(
-                            args.gradient_accumulation_steps))
-    args.train_batch_size = args.train_batch_size // args.gradient_accumulation_steps
 
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -328,12 +433,15 @@ def main(args):
     processor = DataProcessor()
     label_list = processor.get_labels(args.data_dir, args.negative_label)
     label2id = {label: i for i, label in enumerate(label_list)}
+    print(label2id)
+    # exit()
     id2label = {i: label for i, label in enumerate(label_list)}
     num_labels = len(label_list)
     tokenizer = BertTokenizer.from_pretrained(args.model, do_lower_case=args.do_lower_case)
+    # tokenizer = BertTokenizer.from_pretrained('bert-large-cased', do_lower_case=args.do_lower_case)
 
     special_tokens = {}
-    if args.do_eval:
+    if args.do_eval and not args.eval_test:
         eval_examples = processor.get_dev_examples(args.data_dir)
         eval_features = convert_examples_to_features(
             eval_examples, label2id, args.max_seq_length, tokenizer, special_tokens, args.feature_mode)
@@ -362,6 +470,7 @@ def main(args):
         all_input_mask = torch.tensor([f.input_mask for f in train_features], dtype=torch.long)
         all_segment_ids = torch.tensor([f.segment_ids for f in train_features], dtype=torch.long)
         all_label_ids = torch.tensor([f.label_id for f in train_features], dtype=torch.long)
+
         train_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids)
         train_dataloader = DataLoader(train_data, batch_size=args.train_batch_size)
         train_batches = [batch for batch in train_dataloader]
@@ -428,10 +537,10 @@ def main(args):
                 logger.info("Start epoch #{} (lr = {})...".format(epoch, lr))
                 if args.train_mode == 'random' or args.train_mode == 'random_sorted':
                     random.shuffle(train_batches)
-                for step, batch in enumerate(train_batches):
+                for step, batch in enumerate(tqdm(train_batches)):
                     batch = tuple(t.to(device) for t in batch)
                     input_ids, input_mask, segment_ids, label_ids = batch
-                    loss = model(input_ids, segment_ids, input_mask, label_ids)
+                    loss, pred_rels = model(input_ids, segment_ids, input_mask, label_ids)
                     if n_gpu > 1:
                         loss = loss.mean()
                     if args.gradient_accumulation_steps > 1:
@@ -462,7 +571,7 @@ def main(args):
                                      time.time() - start_time, tr_loss / nb_tr_steps))
                         save_model = False
                         if args.do_eval:
-                            preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels)
+                            preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label)
                             model.train()
                             result['global_step'] = global_step
                             result['epoch'] = epoch
@@ -495,7 +604,7 @@ def main(args):
 
     if args.do_eval:
         if args.eval_test:
-            eval_examples = processor.get_test_examples(args.data_dir)
+            eval_examples, raw_data = processor.get_test_examples(args.data_dir)
             eval_features = convert_examples_to_features(
                 eval_examples, label2id, args.max_seq_length, tokenizer, special_tokens, args.feature_mode)
             logger.info("***** Test *****")
@@ -508,11 +617,13 @@ def main(args):
             eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids)
             eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size)
             eval_label_ids = all_label_ids
+        else:
+            raw_data = None
         model = BertForSequenceClassification.from_pretrained(args.output_dir, num_labels=num_labels)
         if args.fp16:
             model.half()
         model.to(device)
-        preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels)
+        preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, raw_data=raw_data)
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
             for ex, pred in zip(eval_examples, preds):
                 f.write("%s\t%s\n" % (ex.guid, id2label[pred]))
