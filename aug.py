@@ -9,6 +9,7 @@ def rewrite_sent(llm, message, max_iter=5):
         response = llm.chat(message)
         new_tokens = decode(response)
         is_valid, error = check_valid(new_tokens)
+        cur_iter
     if not is_valid:
         print('=====not valid afater %s tries' % max_iter)
         return None
@@ -25,24 +26,44 @@ def decode(content):
                 continue
             if word in ['[[', ']]', '<<', '>>']:
                 words.append(word)
-            else:
-                for token in ['[[', ']]', '<<', '>>']:
-                    if token in word:
-                        idx = word.index(token)
-                        if len(word[:idx]):
-                            words.append(word[:idx])
-                        words.append(token)
-                        if len(word[idx+2:]):
-                            words.append(word[idx+2:])
-                        changed = True
-                        break
-                if changed:
-                    continue
-                if not word[-1].isalpha():
+            elif '[[' in word:
+                idx = word.index('[[')
+                if len(word[:idx]):
+                    words.append(word[:idx])
+                words.append('[[')
+                if len(word[idx+2:]):
+                    words.append(word[idx+2:])
+                # changed = True
+            elif '<<' in word:
+                idx = word.index('<<')
+                if len(word[:idx]):
+                    words.append(word[:idx])
+                words.append('<<')
+                if len(word[idx+2:]):
+                    words.append(word[idx+2:])
+                # changed = True
+            elif ']]' in word:
+                idx = word.index(']]')
+                if len(word[:idx]):
+                    words.append(word[:idx])
+                words.append(']]')
+                if len(word[idx+2:]):
+                    words.append(word[idx+2:])
+                # changed = True
+            elif '>>' in word:
+                idx = word.index('>>')
+                if len(word[:idx]):
+                    words.append(word[:idx])
+                words.append('>>')
+                if len(word[idx+2:]):
+                    words.append(word[idx+2:])
+                # changed = True
+            elif not word[-1].isalnum():
+                if len(word[:-1]):
                     words.append(word[:-1])
-                    words.append(word[-1])
-                else:
-                    words.append(word)
+                words.append(word[-1])
+            else:
+                words.append(word)
         if not changed:
             break
         pre_words = words
@@ -90,7 +111,7 @@ def get_encoded_sents(sents):
     for sent in sents:
         # print(' '.join(sent['tokens']))
         encoded_sent = encode_sent(sent)
-        head_ent_type, tail_ent_type = sent['subj_type'], sent['obj_type']
         if encoded_sent:
+            head_ent_type, tail_ent_type = sent['subj_type'], sent['obj_type']
             encoded_sents[sent['relation']].append((encoded_sent, head_ent_type, tail_ent_type))
     return encoded_sents
