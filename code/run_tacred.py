@@ -9,14 +9,11 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from collections import Counter
-
 from torch.nn import CrossEntropyLoss
-
 from pytorch_pretrained_bert.file_utils import PYTORCH_PRETRAINED_BERT_CACHE, WEIGHTS_NAME, CONFIG_NAME
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
 from pytorch_pretrained_bert.tokenization import BertTokenizer
-from pytorch_pretrained_bert.optimization import BertAdam, warmup_linear
-from scorer import score
+from pytorch_pretrained_bert.optimization import BertAdam
 
 
 CLS = "[CLS]"
@@ -337,57 +334,6 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
 
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds[0], axis=1).reshape(-1)
-    pred_labels = [id2label[pred_id] for pred_id in preds]
-    eval_labels = [id2label[label_id] for label_id in eval_label_ids.numpy().reshape(-1)]
-    _, indices = score(eval_labels, pred_labels, verbose=verbose)
-
-    # structure_parts = compute_structure_parts(raw_data)
-    # compute_structure_errors(structure_parts, preds=pred_labels, gold_labels=eval_labels)
-
-    # wrong_indices = indices['wrong_indices']
-    # correct_indices = indices['correct_indices']
-    # wrong_relations = indices['wrong_predictions']
-    # correct_predictions = indices['correct_predictions']
-    # all_predictions = indices['all_predictions']
-    # wrong_ids = [d['id'] for d in raw_data[wrong_indices]]
-    # correct_ids = [d['id'] for d in raw_data[correct_indices]]
-    # all_ids = [d['id'] for d in raw_data]
-    # print('Num Correct: {} | Num Wrong: {}'.format(len(correct_indices), len(wrong_indices)))
-    # print('Wrong Predictions: {}')
-    # print(Counter(wrong_relations))
-
-    # ids = [instance['id'] for instance in raw_data]
-    # formatted_data = []
-    # for instance_id, pred, gold in zip(ids, pred_labels, eval_labels):
-    #     formatted_data.append(
-    #         {
-    #             "id": instance_id.replace("'", '"'),
-    #             "label_true": gold.replace("'", '"'),
-    #             "label_pred": pred.replace("'", '"')
-    #         }
-    #     )
-
-    # id2preds = {d['id']: pred for d, pred in zip(raw_data, pred_labels)}
-
-    # save_dir = None
-    # if save_dir is not None:
-    #     os.makedirs(save_dir, exist_ok=True)
-    #     print('saving to: {}'.format(save_dir))
-    #     np.savetxt(os.path.join(save_dir, 'correct_ids.txt'), correct_ids, fmt='%s')
-    #     np.savetxt(os.path.join(save_dir, 'wrong_ids.txt'), wrong_ids, fmt='%s')
-    #     np.savetxt(os.path.join(save_dir, 'wrong_predictions.txt'), wrong_relations, fmt='%s')
-    #     np.savetxt(os.path.join(save_dir, 'correct_predictions.txt'), correct_predictions, fmt='%s')
-    #     np.savetxt(os.path.join(save_dir, 'all_predictions.txt'), all_predictions, fmt='%s')
-    #     np.savetxt(os.path.join(save_dir, 'all_ids.txt'), all_ids, fmt='%s')
-
-    #     json.dump(id2preds, open(os.path.join(save_dir, 'id2preds.json'), 'w'))
-
-    #     with open(os.path.join(save_dir, 'spanbert_tacred.jsonl'), 'w') as handle:
-    #         print('Saving to: {}'.format(os.path.join(save_dir, 'spanbert_tacred.jsonl')))
-    #         for instance in formatted_data:
-    #             line = "{}\n".format(instance)
-    #             handle.write(line)
-
     result = compute_f1(preds, eval_label_ids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
     result['eval_loss'] = eval_loss
@@ -418,8 +364,7 @@ def main(args):
     else:
         logger.addHandler(logging.FileHandler(os.path.join(args.output_dir, "eval.log"), 'w'))
     logger.info(args)
-    logger.info("device: {}, n_gpu: {}, 16-bits training: {}".format(
-        device, n_gpu, args.fp16))
+    logger.info("device: {}, n_gpu: {}".format(device, n_gpu))
 
     processor = DataProcessor()
     label_list = processor.get_labels(args.data_dir, args.negative_label)
@@ -481,8 +426,6 @@ def main(args):
         for lr in lrs:
             model = BertForSequenceClassification.from_pretrained(
                 args.model, cache_dir=str(PYTORCH_PRETRAINED_BERT_CACHE), num_labels=num_labels)
-            if args.fp16:
-                model.half()
             model.to(device)
             if n_gpu > 1:
                 model = torch.nn.DataParallel(model)
@@ -495,28 +438,10 @@ def main(args):
                 {'params': [p for n, p in param_optimizer
                             if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
             ]
-            if args.fp16:
-                try:
-                    from apex.optimizers import FP16_Optimizer
-                    from apex.optimizers import FusedAdam
-                except ImportError:
-                    raise ImportError("Please install apex from https://www.github.com/nvidia/apex"
-                                      "to use distributed and fp16 training.")
-
-                optimizer = FusedAdam(optimizer_grouped_parameters,
-                                      lr=lr,
-                                      bias_correction=False,
-                                      max_grad_norm=1.0)
-                if args.loss_scale == 0:
-                    optimizer = FP16_Optimizer(optimizer, dynamic_loss_scale=True)
-                else:
-                    optimizer = FP16_Optimizer(optimizer, static_loss_scale=args.loss_scale)
-
-            else:
-                optimizer = BertAdam(optimizer_grouped_parameters,
-                                     lr=lr,
-                                     warmup=args.warmup_proportion,
-                                     t_total=num_train_optimization_steps)
+            optimizer = BertAdam(
+                optimizer_grouped_parameters, lr=lr,
+                warmup=args.warmup_proportion,
+                t_total=num_train_optimization_steps)
 
             start_time = time.time()
             global_step = 0
@@ -535,21 +460,13 @@ def main(args):
                     if n_gpu > 1:
                         loss = loss.mean()
 
-                    if args.fp16:
-                        optimizer.backward(loss)
-                    else:
-                        loss.backward()
+                    loss.backward()
 
                     tr_loss += loss.item()
                     nb_tr_examples += input_ids.size(0)
                     nb_tr_steps += 1
 
                     if (step + 1) % args.gradient_accumulation_steps == 0:
-                        if args.fp16:
-                            lr_this_step = lr * \
-                                warmup_linear(global_step/num_train_optimization_steps, args.warmup_proportion)
-                            for param_group in optimizer.param_groups:
-                                param_group['lr'] = lr_this_step
                         optimizer.step()
                         optimizer.zero_grad()
                         global_step += 1
@@ -609,8 +526,6 @@ def main(args):
         else:
             raw_data = None
         model = BertForSequenceClassification.from_pretrained(args.output_dir, num_labels=num_labels)
-        if args.fp16:
-            model.half()
         model.to(device)
         preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, raw_data=raw_data)
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
@@ -659,11 +574,5 @@ if __name__ == "__main__":
                         help="random seed for initialization")
     parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
-    parser.add_argument('--fp16', action='store_true',
-                        help="Whether to use 16-bit float precision instead of 32-bit")
-    parser.add_argument('--loss_scale', type=float, default=0,
-                        help="Loss scaling to improve fp16 numeric stability. Only used when fp16 set to True.\n"
-                             "0 (default value): dynamic loss scaling.\n"
-                             "Positive power of 2: static loss scaling value.\n")
     args = parser.parse_args()
     main(args)
