@@ -1,0 +1,10 @@
+__pycache__
+*.pkl
+.DS_Store
+resources
+results
+checkpoint
+*.json
+*bk
+*ipynb
+*_dir

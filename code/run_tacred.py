@@ -223,16 +223,7 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
                               input_mask=input_mask,
                               segment_ids=segment_ids,
                               label_id=label_id,
-                              subject_id=subject_id
-                              ))
-        # Add KG outputs to features
-        for feature in features:
-            feature_subject = feature.subject_id
-            feature_label = feature.label_id
-            known_objects = list(kg[(feature_subject, feature_label)])
-
-            feature.known_objects = known_objects
-
+                              subject_id=subject_id))
     logger.info("Average #tokens: %.2f" % (num_tokens * 1.0 / len(examples)))
     logger.info("%d (%.2f %%) examples can fit max_seq_length = %d" % (num_fit_examples,
                 num_fit_examples * 100.0 / len(examples), max_seq_length))
@@ -333,7 +324,7 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
         segment_ids = segment_ids.to(device)
         label_ids = label_ids.to(device)
         with torch.no_grad():
-            logits, _ = model(input_ids, segment_ids, input_mask, labels=None)
+            logits = model(input_ids, segment_ids, input_mask, labels=None)
         loss_fct = CrossEntropyLoss()
         tmp_eval_loss = loss_fct(logits.view(-1, num_labels), label_ids.view(-1))
         eval_loss += tmp_eval_loss.mean().item()
@@ -350,52 +341,52 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
     eval_labels = [id2label[label_id] for label_id in eval_label_ids.numpy().reshape(-1)]
     _, indices = score(eval_labels, pred_labels, verbose=verbose)
 
-    structure_parts = compute_structure_parts(raw_data)
-    compute_structure_errors(structure_parts, preds=pred_labels, gold_labels=eval_labels)
+    # structure_parts = compute_structure_parts(raw_data)
+    # compute_structure_errors(structure_parts, preds=pred_labels, gold_labels=eval_labels)
 
-    wrong_indices = indices['wrong_indices']
-    correct_indices = indices['correct_indices']
-    wrong_relations = indices['wrong_predictions']
-    correct_predictions = indices['correct_predictions']
-    all_predictions = indices['all_predictions']
-    wrong_ids = [d['id'] for d in raw_data[wrong_indices]]
-    correct_ids = [d['id'] for d in raw_data[correct_indices]]
-    all_ids = [d['id'] for d in raw_data]
-    print('Num Correct: {} | Num Wrong: {}'.format(len(correct_indices), len(wrong_indices)))
-    print('Wrong Predictions: {}')
-    print(Counter(wrong_relations))
+    # wrong_indices = indices['wrong_indices']
+    # correct_indices = indices['correct_indices']
+    # wrong_relations = indices['wrong_predictions']
+    # correct_predictions = indices['correct_predictions']
+    # all_predictions = indices['all_predictions']
+    # wrong_ids = [d['id'] for d in raw_data[wrong_indices]]
+    # correct_ids = [d['id'] for d in raw_data[correct_indices]]
+    # all_ids = [d['id'] for d in raw_data]
+    # print('Num Correct: {} | Num Wrong: {}'.format(len(correct_indices), len(wrong_indices)))
+    # print('Wrong Predictions: {}')
+    # print(Counter(wrong_relations))
 
-    ids = [instance['id'] for instance in raw_data]
-    formatted_data = []
-    for instance_id, pred, gold in zip(ids, pred_labels, eval_labels):
-        formatted_data.append(
-            {
-                "id": instance_id.replace("'", '"'),
-                "label_true": gold.replace("'", '"'),
-                "label_pred": pred.replace("'", '"')
-            }
-        )
+    # ids = [instance['id'] for instance in raw_data]
+    # formatted_data = []
+    # for instance_id, pred, gold in zip(ids, pred_labels, eval_labels):
+    #     formatted_data.append(
+    #         {
+    #             "id": instance_id.replace("'", '"'),
+    #             "label_true": gold.replace("'", '"'),
+    #             "label_pred": pred.replace("'", '"')
+    #         }
+    #     )
 
-    id2preds = {d['id']: pred for d, pred in zip(raw_data, pred_labels)}
+    # id2preds = {d['id']: pred for d, pred in zip(raw_data, pred_labels)}
 
-    save_dir = None  # Specify where to save data
-    if save_dir is not None:
-        os.makedirs(save_dir, exist_ok=True)
-        print('saving to: {}'.format(save_dir))
-        np.savetxt(os.path.join(save_dir, 'correct_ids.txt'), correct_ids, fmt='%s')
-        np.savetxt(os.path.join(save_dir, 'wrong_ids.txt'), wrong_ids, fmt='%s')
-        np.savetxt(os.path.join(save_dir, 'wrong_predictions.txt'), wrong_relations, fmt='%s')
-        np.savetxt(os.path.join(save_dir, 'correct_predictions.txt'), correct_predictions, fmt='%s')
-        np.savetxt(os.path.join(save_dir, 'all_predictions.txt'), all_predictions, fmt='%s')
-        np.savetxt(os.path.join(save_dir, 'all_ids.txt'), all_ids, fmt='%s')
+    # save_dir = None
+    # if save_dir is not None:
+    #     os.makedirs(save_dir, exist_ok=True)
+    #     print('saving to: {}'.format(save_dir))
+    #     np.savetxt(os.path.join(save_dir, 'correct_ids.txt'), correct_ids, fmt='%s')
+    #     np.savetxt(os.path.join(save_dir, 'wrong_ids.txt'), wrong_ids, fmt='%s')
+    #     np.savetxt(os.path.join(save_dir, 'wrong_predictions.txt'), wrong_relations, fmt='%s')
+    #     np.savetxt(os.path.join(save_dir, 'correct_predictions.txt'), correct_predictions, fmt='%s')
+    #     np.savetxt(os.path.join(save_dir, 'all_predictions.txt'), all_predictions, fmt='%s')
+    #     np.savetxt(os.path.join(save_dir, 'all_ids.txt'), all_ids, fmt='%s')
 
-        json.dump(id2preds, open(os.path.join(save_dir, 'id2preds.json'), 'w'))
+    #     json.dump(id2preds, open(os.path.join(save_dir, 'id2preds.json'), 'w'))
 
-        with open(os.path.join(save_dir, 'spanbert_tacred.jsonl'), 'w') as handle:
-            print('Saving to: {}'.format(os.path.join(save_dir, 'spanbert_tacred.jsonl')))
-            for instance in formatted_data:
-                line = "{}\n".format(instance)
-                handle.write(line)
+    #     with open(os.path.join(save_dir, 'spanbert_tacred.jsonl'), 'w') as handle:
+    #         print('Saving to: {}'.format(os.path.join(save_dir, 'spanbert_tacred.jsonl')))
+    #         for instance in formatted_data:
+    #             line = "{}\n".format(instance)
+    #             handle.write(line)
 
     result = compute_f1(preds, eval_label_ids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
@@ -540,11 +531,9 @@ def main(args):
                 for step, batch in enumerate(tqdm(train_batches)):
                     batch = tuple(t.to(device) for t in batch)
                     input_ids, input_mask, segment_ids, label_ids = batch
-                    loss, pred_rels = model(input_ids, segment_ids, input_mask, label_ids)
+                    loss = model(input_ids, segment_ids, input_mask, label_ids)
                     if n_gpu > 1:
                         loss = loss.mean()
-                    if args.gradient_accumulation_steps > 1:
-                        loss = loss / args.gradient_accumulation_steps
 
                     if args.fp16:
                         optimizer.backward(loss)
