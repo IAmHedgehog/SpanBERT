@@ -370,11 +370,10 @@ def main(args):
     label_list = processor.get_labels(args.data_dir, args.negative_label)
     label2id = {label: i for i, label in enumerate(label_list)}
     print(label2id)
-    # exit()
+
     id2label = {i: label for i, label in enumerate(label_list)}
     num_labels = len(label_list)
-    tokenizer = BertTokenizer.from_pretrained(args.model, do_lower_case=args.do_lower_case)
-    # tokenizer = BertTokenizer.from_pretrained('bert-large-cased', do_lower_case=args.do_lower_case)
+    tokenizer = BertTokenizer.from_pretrained(args.model)
 
     special_tokens = {}
     if args.do_eval and not args.eval_test:
@@ -411,8 +410,7 @@ def main(args):
         train_dataloader = DataLoader(train_data, batch_size=args.train_batch_size)
         train_batches = [batch for batch in train_dataloader]
 
-        num_train_optimization_steps = \
-            len(train_dataloader) // args.gradient_accumulation_steps * args.num_train_epochs
+        num_train_optimization_steps = len(train_dataloader) * args.num_train_epochs
 
         logger.info("***** Training *****")
         logger.info("  Num examples = %d", len(train_examples))
@@ -466,10 +464,9 @@ def main(args):
                     nb_tr_examples += input_ids.size(0)
                     nb_tr_steps += 1
 
-                    if (step + 1) % args.gradient_accumulation_steps == 0:
-                        optimizer.step()
-                        optimizer.zero_grad()
-                        global_step += 1
+                    optimizer.step()
+                    optimizer.zero_grad()
+                    global_step += 1
 
                     if (step + 1) % eval_step == 0:
                         logger.info('Epoch: {}, Step: {} / {}, used_time = {:.2f}s, loss = {:.6f}'.format(
@@ -553,7 +550,6 @@ if __name__ == "__main__":
     parser.add_argument("--do_train", action='store_true', help="Whether to run training.")
     parser.add_argument("--train_mode", type=str, default='random_sorted', choices=['random', 'sorted', 'random_sorted'])
     parser.add_argument("--do_eval", action='store_true', help="Whether to run eval on the dev set.")
-    parser.add_argument("--do_lower_case", action='store_true', help="Set this flag if you are using an uncased model.")
     parser.add_argument("--eval_test", action="store_true", help="Whether to evaluate on final test set.")
     parser.add_argument("--feature_mode", type=str, default="ner", choices=["text", "ner", "text_ner", "ner_text"])
     parser.add_argument("--train_batch_size", default=32, type=int,
@@ -568,11 +564,7 @@ if __name__ == "__main__":
     parser.add_argument("--warmup_proportion", default=0.1, type=float,
                         help="Proportion of training to perform linear learning rate warmup for. "
                              "E.g., 0.1 = 10%% of training.")
-    parser.add_argument("--no_cuda", action='store_true',
-                        help="Whether not to use CUDA when available")
     parser.add_argument('--seed', type=int, default=42,
                         help="random seed for initialization")
-    parser.add_argument('--gradient_accumulation_steps', type=int, default=1,
-                        help="Number of updates steps to accumulate before performing a backward/update pass.")
     args = parser.parse_args()
     main(args)

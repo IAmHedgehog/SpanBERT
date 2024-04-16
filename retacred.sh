@@ -9,4 +9,3 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python code/run_tacred.py \
   --num_train_epochs 10 \
   --max_seq_length 128 \
   --output_dir tacred_dir
- 
