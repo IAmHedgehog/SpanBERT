@@ -1,5 +1,3 @@
-import os
-from tqdm import tqdm
 from collections import defaultdict
 
 
@@ -25,29 +23,26 @@ def decode(content):
         for word in pre_words:
             if len(word) == 0:
                 continue
-            if word in ['[[', ']]']:
+            if word in ['[[', ']]', '<<', '>>']:
                 words.append(word)
-            elif '[[' in word:
-                idx = word.index('[[')
-                if len(word[:idx]):
-                    words.append(word[:idx])
-                words.append('[[')
-                if len(word[idx+2:]):
-                    words.append(word[idx+2:])
-                changed = True
-            elif ']]' in word:
-                idx = word.index(']]')
-                if len(word[:idx]):
-                    words.append(word[:idx])
-                words.append(']]')
-                if len(word[idx+2:]):
-                    words.append(word[idx+2:])
-                changed = True
-            elif not word[-1].isalpha():
-                words.append(word[:-1])
-                words.append(word[-1])
             else:
-                words.append(word)
+                for token in ['[[', ']]', '<<', '>>']:
+                    if token in word:
+                        idx = word.index(token)
+                        if len(word[:idx]):
+                            words.append(word[:idx])
+                        words.append(token)
+                        if len(word[idx+2:]):
+                            words.append(word[idx+2:])
+                        changed = True
+                        break
+                if changed:
+                    continue
+                if not word[-1].isalpha():
+                    words.append(word[:-1])
+                    words.append(word[-1])
+                else:
+                    words.append(word)
         if not changed:
             break
         pre_words = words
@@ -57,32 +52,36 @@ def decode(content):
 def check_valid(words):
     if '\n' in words:
         return False, 'multiple lines'
-    if words.count('[[') != 2:
+    if words.count('[[') != 1:
         return False, 'incorrect num of [[: %s' % words.count('[[')
-    if words.count(']]') != 2:
+    if words.count(']]') != 1:
         return False, 'incorrect num of ]]: %s' % words.count(']]')
+    if words.count('<<') != 1:
+        return False, 'incorrect num of <<: %s' % words.count('<<')
+    if words.count('>>') != 1:
+        return False, 'incorrect num of >>: %s' % words.count('>>')
     head_start = words.index('[[')
     head_end = words.index(']]')
-    tail_start = words.index('[[', head_start+1)
-    tail_end = words.index(']]', head_end+1)
-    if set(range(head_start, head_end+1)) & set(range(tail_start, tail_end+1)):
+    tail_start = words.index('<<')
+    tail_end = words.index('>>')
+    if set(range(head_start, head_end+2)) & set(range(tail_start, tail_end+2)):
         return False, 'overlap entities'
     return True, 'Good content'
 
 
 def encode_sent(sent):
     tokens = list(sent['token'])
-    pairs = [(sent['subj_start'], sent['subj_end']+1), (sent['obj_start'], sent['obj_end']+1)]
+    pairs = [(sent['subj_start'], sent['subj_end']+1, '[[', ']]'), (sent['obj_start'], sent['obj_end']+1, '<<', '>>')]
     pairs.sort()
     poss = set()
-    for start, end in pairs:
+    for start, end, _, _ in pairs:
         if set(range(start, end)) & poss:
             print('------> overlapping entities')
             return None
         poss.update(range(start, end))
-    for idx, (start, end) in enumerate(pairs):
-        tokens.insert(start+2*idx, '[[')
-        tokens.insert(end+2*idx+1, ']]')
+    for idx, (start, end, head_token, tail_token) in enumerate(pairs):
+        tokens.insert(start+2*idx, head_token)
+        tokens.insert(end+2*idx+1, tail_token)
     return ' '.join(tokens)
 
 
@@ -91,6 +90,7 @@ def get_encoded_sents(sents):
     for sent in sents:
         # print(' '.join(sent['tokens']))
         encoded_sent = encode_sent(sent)
+        head_ent_type, tail_ent_type = sent['subj_type'], sent['obj_type']
         if encoded_sent:
-            encoded_sents[sent['relation']].append(encoded_sent)
+            encoded_sents[sent['relation']].append((encoded_sent, head_ent_type, tail_ent_type))
     return encoded_sents
