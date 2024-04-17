@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 
-def rewrite_sent(llm, message, max_iter=5):
+def rewrite_sent(llm, message, max_iter=10):
     # message = template % sent
     is_valid = False
     cur_iter = 0
@@ -9,9 +9,9 @@ def rewrite_sent(llm, message, max_iter=5):
         response = llm.chat(message)
         new_tokens = decode(response)
         is_valid, error = check_valid(new_tokens)
-        cur_iter
+        cur_iter += 1
     if not is_valid:
-        print('=====not valid afater %s tries' % max_iter)
+        # print('=====not valid afater %s tries' % max_iter)
         return None
     return new_tokens
 
@@ -73,18 +73,18 @@ def decode(content):
 def check_valid(words):
     if '\n' in words:
         return False, 'multiple lines'
-    if words.count('[[') != 1:
+    if words.count('[[') != 2:
         return False, 'incorrect num of [[: %s' % words.count('[[')
-    if words.count(']]') != 1:
+    if words.count(']]') != 2:
         return False, 'incorrect num of ]]: %s' % words.count(']]')
-    if words.count('<<') != 1:
-        return False, 'incorrect num of <<: %s' % words.count('<<')
-    if words.count('>>') != 1:
-        return False, 'incorrect num of >>: %s' % words.count('>>')
+    # if words.count('<<') != 0:
+    #     return False, 'incorrect num of <<: %s' % words.count('<<')
+    # if words.count('>>') != 0:
+    #     return False, 'incorrect num of >>: %s' % words.count('>>')
     head_start = words.index('[[')
     head_end = words.index(']]')
-    tail_start = words.index('<<')
-    tail_end = words.index('>>')
+    tail_start = words.index('[[', head_start+1)
+    tail_end = words.index(']]', head_end+1)
     if set(range(head_start, head_end+2)) & set(range(tail_start, tail_end+2)):
         return False, 'overlap entities'
     return True, 'Good content'
@@ -92,7 +92,8 @@ def check_valid(words):
 
 def encode_sent(sent):
     tokens = list(sent['token'])
-    pairs = [(sent['subj_start'], sent['subj_end']+1, '[[', ']]'), (sent['obj_start'], sent['obj_end']+1, '<<', '>>')]
+    # pairs = [(sent['subj_start'], sent['subj_end']+1, '[[', ']]'), (sent['obj_start'], sent['obj_end']+1, '<<', '>>')]
+    pairs = [(sent['subj_start'], sent['subj_end']+1, '[[', ']]'), (sent['obj_start'], sent['obj_end']+1, '[[', ']]')]
     pairs.sort()
     poss = set()
     for start, end, _, _ in pairs:
@@ -113,5 +114,7 @@ def get_encoded_sents(sents):
         encoded_sent = encode_sent(sent)
         if encoded_sent:
             head_ent_type, tail_ent_type = sent['subj_type'], sent['obj_type']
-            encoded_sents[sent['relation']].append((encoded_sent, head_ent_type, tail_ent_type))
+            head_ent = sent['token'][sent['subj_start']: sent['subj_end']+1]
+            tail_ent = sent['token'][sent['obj_start']: sent['obj_end']+1]
+            encoded_sents[sent['relation']].append((encoded_sent, head_ent_type, tail_ent_type, head_ent, tail_ent))
     return encoded_sents

@@ -1,0 +1,56 @@
+Namespace(model='spanbert-base-cased', data_dir='datasets/retacred_aug', output_dir='tacred_dir_aug', eval_per_epoch=10, max_seq_length=128, negative_label='no_relation', do_train=False, train_mode='random_sorted', do_eval=True, eval_test=True, feature_mode='ner', train_batch_size=32, eval_batch_size=32, eval_metric='f1', learning_rate=2e-05, num_train_epochs=10.0, warmup_proportion=0.1, seed=42)
+device: cuda, n_gpu: 4
+40 labels
+no_relation: 53.03%
+per:identity: 7.28%
+per:title: 3.59%
+per:employee_of: 2.92%
+per:siblings: 2.26%
+org:top_members/employees: 2.02%
+per:countries_of_residence: 1.97%
+per:cities_of_residence: 1.86%
+per:parents: 1.81%
+org:alternate_names: 1.80%
+org:political/religious_affiliation: 1.78%
+per:date_of_death: 1.76%
+per:cause_of_death: 1.24%
+org:country_of_branch: 1.22%
+per:schools_attended: 1.15%
+per:city_of_death: 1.14%
+per:other_family: 1.12%
+org:founded_by: 1.09%
+per:charges: 0.95%
+org:shareholders: 0.89%
+org:city_of_branch: 0.85%
+org:founded: 0.82%
+org:members: 0.77%
+per:date_of_birth: 0.71%
+per:religion: 0.71%
+per:age: 0.58%
+per:stateorprovince_of_death: 0.56%
+org:member_of: 0.50%
+org:number_of_employees/members: 0.47%
+org:stateorprovince_of_branch: 0.43%
+per:stateorprovince_of_birth: 0.41%
+per:origin: 0.40%
+per:children: 0.38%
+per:spouse: 0.37%
+per:stateorprovinces_of_residence: 0.36%
+per:country_of_birth: 0.25%
+org:dissolved: 0.19%
+org:website: 0.16%
+per:city_of_birth: 0.12%
+per:country_of_death: 0.07%
+Writing example 0 of 13418
+Writing example 10000 of 13418
+Average #tokens: 41.61
+13374 (99.67 %) examples can fit max_seq_length = 128
+***** Test *****
+  Num examples = 13418
+  Batch size = 32
+***** Eval results *****
+  accuracy = 0.8789685497093457
+  eval_loss = 0.5995807470443348
+  f1 = 0.8369997349589186
+  precision = 0.8353024157996826
+  recall = 0.8387039660056658

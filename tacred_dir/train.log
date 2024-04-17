@@ -1,0 +1,2917 @@
+Namespace(model='spanbert-base-cased', data_dir='datasets/retacred', output_dir='tacred_dir', eval_per_epoch=10, max_seq_length=128, negative_label='no_relation', do_train=True, train_mode='random_sorted', do_eval=True, do_lower_case=False, eval_test=False, feature_mode='ner', train_batch_size=32, eval_batch_size=32, eval_metric='f1', learning_rate=2e-05, num_train_epochs=10.0, warmup_proportion=0.1, no_cuda=False, seed=42, gradient_accumulation_steps=1, fp16=False, loss_scale=0)
+device: cuda, n_gpu: 4, 16-bits training: False
+40 labels
+no_relation: 66.30%
+per:identity: 9.10%
+per:title: 4.49%
+per:employee_of: 3.65%
+org:top_members/employees: 2.52%
+org:alternate_names: 2.26%
+org:country_of_branch: 1.52%
+org:city_of_branch: 1.06%
+org:members: 0.96%
+per:age: 0.72%
+org:member_of: 0.62%
+org:stateorprovince_of_branch: 0.54%
+per:origin: 0.50%
+per:children: 0.47%
+per:spouse: 0.46%
+per:stateorprovinces_of_residence: 0.45%
+per:siblings: 0.36%
+per:countries_of_residence: 0.34%
+org:political/religious_affiliation: 0.32%
+per:cities_of_residence: 0.32%
+per:parents: 0.31%
+per:date_of_death: 0.29%
+per:schools_attended: 0.24%
+per:city_of_death: 0.21%
+org:website: 0.20%
+per:cause_of_death: 0.19%
+org:founded_by: 0.18%
+per:other_family: 0.18%
+org:shareholders: 0.16%
+per:city_of_birth: 0.15%
+per:charges: 0.15%
+org:founded: 0.14%
+per:religion: 0.13%
+per:date_of_birth: 0.12%
+per:stateorprovince_of_death: 0.10%
+org:number_of_employees/members: 0.09%
+per:stateorprovince_of_birth: 0.08%
+per:country_of_birth: 0.04%
+org:dissolved: 0.04%
+per:country_of_death: 0.01%
+Writing example 0 of 19584
+Writing example 10000 of 19584
+Average #tokens: 41.96
+19571 (99.93 %) examples can fit max_seq_length = 128
+***** Dev *****
+  Num examples = 19584
+  Batch size = 32
+Writing example 0 of 58465
+Writing example 10000 of 58465
+Writing example 20000 of 58465
+Writing example 30000 of 58465
+Writing example 40000 of 58465
+Writing example 50000 of 58465
+Average #tokens: 44.86
+58134 (99.43 %) examples can fit max_seq_length = 128
+***** Training *****
+  Num examples = 58465
+  Batch size = 32
+  Num steps = 18280
+Start epoch #0 (lr = 2e-05)...
+Epoch: 0, Step: 182 / 1828, used_time = 44.93s, loss = 3.161581
+***** Eval results *****
+  accuracy = 0.5742442810457516
+  eval_loss = 2.669917755656772
+  f1 = 0.0
+  precision = 0.0
+  recall = 0.0
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = no_relation, label = per:identity ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 0.00
+Epoch: 0, Step: 364 / 1828, used_time = 136.87s, loss = 2.670933
+***** Eval results *****
+  accuracy = 0.5742442810457516
+  eval_loss = 2.1037990106087103
+  f1 = 0.0
+  precision = 0.0
+  recall = 0.0
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = no_relation, label = per:identity ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 0, Step: 546 / 1828, used_time = 229.71s, loss = 2.346186
+***** Eval results *****
+  accuracy = 0.5742442810457516
+  eval_loss = 1.9559955547253292
+  f1 = 0.0
+  precision = 0.0
+  recall = 0.0
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = no_relation, label = per:identity ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 0, Step: 728 / 1828, used_time = 322.12s, loss = 2.154148
+***** Eval results *****
+  accuracy = 0.5742442810457516
+  eval_loss = 1.8301391610327888
+  f1 = 0.0
+  precision = 0.0
+  recall = 0.0
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = no_relation, label = per:identity ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 0, Step: 910 / 1828, used_time = 415.18s, loss = 2.009714
+***** Eval results *****
+  accuracy = 0.6368464052287581
+  eval_loss = 1.5838952023609012
+  f1 = 0.28254847645429365
+  precision = 0.507778469197262
+  recall = 0.1957303909810506
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = per:identity, label = per:city_of_death ✘
+pred = per:identity, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = no_relation, label = per:identity ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = per:identity, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:identity, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 28.25
+Epoch: 0, Step: 1092 / 1828, used_time = 506.61s, loss = 1.887432
+***** Eval results *****
+  accuracy = 0.6438419117647058
+  eval_loss = 1.4342069435937732
+  f1 = 0.35955978975032854
+  precision = 0.5703491401771756
+  recall = 0.262532981530343
+First 20 predictions:
+pred = no_relation, label = per:title ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = no_relation, label = per:origin ✘
+pred = per:identity, label = per:city_of_death ✘
+pred = per:identity, label = per:date_of_death ✘
+pred = no_relation, label = org:top_members/employees ✘
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:identity, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 35.96
+Epoch: 0, Step: 1274 / 1828, used_time = 598.60s, loss = 1.776364
+***** Eval results *****
+  accuracy = 0.7060355392156863
+  eval_loss = 1.3077521313444462
+  f1 = 0.4717522658610272
+  precision = 0.6370869033047736
+  recall = 0.37455025185895896
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = per:title, label = per:origin ✘
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:children, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 47.18
+Epoch: 0, Step: 1456 / 1828, used_time = 691.87s, loss = 1.676777
+***** Eval results *****
+  accuracy = 0.7185457516339869
+  eval_loss = 1.2521662080989164
+  f1 = 0.5062355658198613
+  precision = 0.7067927773000859
+  recall = 0.3943391700647637
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = per:title, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = per:date_of_death ✘
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 50.62
+Epoch: 0, Step: 1638 / 1828, used_time = 785.41s, loss = 1.594645
+***** Eval results *****
+  accuracy = 0.7404003267973857
+  eval_loss = 1.109078161418438
+  f1 = 0.5256668006969576
+  precision = 0.5956865127582017
+  recall = 0.47037658911009833
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = per:title, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:city_of_death, label = per:date_of_death ✘
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:alternate_names, label = org:city_of_branch ✘
+pred = per:children, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 52.57
+Epoch: 0, Step: 1820 / 1828, used_time = 874.47s, loss = 1.519828
+***** Eval results *****
+  accuracy = 0.755718954248366
+  eval_loss = 1.0155789211781976
+  f1 = 0.5630404463040446
+  precision = 0.6726091302899033
+  recall = 0.4841688654353562
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = no_relation, label = per:employee_of ✘
+pred = per:title, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:city_of_death, label = per:date_of_death ✘
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:alternate_names, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=0): 56.30
+Start epoch #1 (lr = 2e-05)...
+Epoch: 1, Step: 182 / 1828, used_time = 967.59s, loss = 1.449245
+***** Eval results *****
+  accuracy = 0.7662377450980392
+  eval_loss = 0.9464314019952724
+  f1 = 0.5893858569279169
+  precision = 0.6857097390197326
+  recall = 0.5167905972655313
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = no_relation, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:alternate_names, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 58.94
+Epoch: 1, Step: 364 / 1828, used_time = 1059.74s, loss = 1.386846
+***** Eval results *****
+  accuracy = 0.7733353758169934
+  eval_loss = 0.9217322746328279
+  f1 = 0.5954208664308124
+  precision = 0.6713834111094386
+  recall = 0.534900455744783
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:employee_of, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:city_of_death, label = per:date_of_death ✘
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:country_of_branch, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 59.54
+Epoch: 1, Step: 546 / 1828, used_time = 1152.18s, loss = 1.331253
+***** Eval results *****
+  accuracy = 0.7821180555555556
+  eval_loss = 0.8686244532076361
+  f1 = 0.6202624392193432
+  precision = 0.6975280898876405
+  recall = 0.5584072919165267
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:age, label = per:origin ✘
+pred = no_relation, label = per:city_of_death ✘
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:country_of_branch, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:age, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 62.03
+Epoch: 1, Step: 728 / 1828, used_time = 1242.00s, loss = 1.281239
+***** Eval results *****
+  accuracy = 0.7905433006535948
+  eval_loss = 0.8336097926047503
+  f1 = 0.6418293936279549
+  precision = 0.6910096818810512
+  recall = 0.5991844567042456
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:age, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:country_of_branch, label = org:city_of_branch ✘
+pred = per:age, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 64.18
+Epoch: 1, Step: 910 / 1828, used_time = 1332.53s, loss = 1.236333
+***** Eval results *****
+  accuracy = 0.7943729575163399
+  eval_loss = 0.7850740618419414
+  f1 = 0.645949535192563
+  precision = 0.7235941684022612
+  recall = 0.5833533221396018
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:title, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 64.59
+Epoch: 1, Step: 1092 / 1828, used_time = 1423.72s, loss = 1.196431
+***** Eval results *****
+  accuracy = 0.7928410947712419
+  eval_loss = 0.761024011530323
+  f1 = 0.6338065898740959
+  precision = 0.7176220806794055
+  recall = 0.567522187574958
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:age, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:city_of_death, label = per:date_of_death ✘
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:country_of_branch, label = org:city_of_branch ✘
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_birth ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 1, Step: 1274 / 1828, used_time = 1513.40s, loss = 1.157979
+***** Eval results *****
+  accuracy = 0.8067299836601307
+  eval_loss = 0.7198306939570732
+  f1 = 0.6768630412890231
+  precision = 0.7121854304635762
+  recall = 0.6448788678340129
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:age, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:stateorprovinces_of_residence, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:stateorprovinces_of_residence, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 67.69
+Epoch: 1, Step: 1456 / 1828, used_time = 1603.68s, loss = 1.122038
+***** Eval results *****
+  accuracy = 0.8127042483660131
+  eval_loss = 0.6940542873409059
+  f1 = 0.6826489734601903
+  precision = 0.7139303482587065
+  recall = 0.6539937634924442
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:stateorprovinces_of_residence, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:stateorprovinces_of_residence, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 68.26
+Epoch: 1, Step: 1638 / 1828, used_time = 1694.70s, loss = 1.088450
+***** Eval results *****
+  accuracy = 0.8190359477124183
+  eval_loss = 0.6665944121778011
+  f1 = 0.6893738263290812
+  precision = 0.7491907107670654
+  recall = 0.6384024946030223
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:stateorprovinces_of_residence, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:stateorprovinces_of_residence, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 68.94
+Epoch: 1, Step: 1820 / 1828, used_time = 1786.36s, loss = 1.058789
+***** Eval results *****
+  accuracy = 0.8204146241830066
+  eval_loss = 0.6347428709999019
+  f1 = 0.7017476227190953
+  precision = 0.7557431497370606
+  recall = 0.6549532261933317
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=1): 70.17
+Start epoch #2 (lr = 2e-05)...
+Epoch: 2, Step: 182 / 1828, used_time = 1879.99s, loss = 1.026562
+***** Eval results *****
+  accuracy = 0.8268484477124183
+  eval_loss = 0.644849680047604
+  f1 = 0.7111494819930934
+  precision = 0.7319116527037319
+  recall = 0.6915327416646678
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 71.11
+Epoch: 2, Step: 364 / 1828, used_time = 1969.90s, loss = 0.998767
+***** Eval results *****
+  accuracy = 0.8244485294117647
+  eval_loss = 0.6191423362961003
+  f1 = 0.7049050149654876
+  precision = 0.7182870658533549
+  recall = 0.6920124730151115
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:stateorprovinces_of_residence, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 2, Step: 546 / 1828, used_time = 2060.16s, loss = 0.972640
+***** Eval results *****
+  accuracy = 0.8286866830065359
+  eval_loss = 0.6292470046897339
+  f1 = 0.7282125255439357
+  precision = 0.7298795180722891
+  recall = 0.7265531302470617
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = no_relation, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 72.82
+Epoch: 2, Step: 728 / 1828, used_time = 2151.79s, loss = 0.947418
+***** Eval results *****
+  accuracy = 0.8419117647058824
+  eval_loss = 0.6083568606915233
+  f1 = 0.7423808931459138
+  precision = 0.7710594315245478
+  recall = 0.7157591748620772
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 74.24
+Epoch: 2, Step: 910 / 1828, used_time = 2241.55s, loss = 0.924917
+***** Eval results *****
+  accuracy = 0.8348651960784313
+  eval_loss = 0.5949546566196516
+  f1 = 0.7366626065773446
+  precision = 0.7483296213808464
+  recall = 0.7253538018709522
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 2, Step: 1092 / 1828, used_time = 2332.86s, loss = 0.904267
+***** Eval results *****
+  accuracy = 0.8412990196078431
+  eval_loss = 0.576397778722001
+  f1 = 0.7389225374561683
+  precision = 0.7887573159112563
+  recall = 0.695010793955385
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 2, Step: 1274 / 1828, used_time = 2424.65s, loss = 0.884349
+***** Eval results *****
+  accuracy = 0.8302696078431373
+  eval_loss = 0.5799926622143758
+  f1 = 0.7301138038799458
+  precision = 0.7181301473146967
+  recall = 0.7425041976493164
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:stateorprovinces_of_residence, label = per:origin ✘
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 2, Step: 1456 / 1828, used_time = 2513.09s, loss = 0.865867
+***** Eval results *****
+  accuracy = 0.842984068627451
+  eval_loss = 0.5667251746225006
+  f1 = 0.7522081064730792
+  precision = 0.7589111328125
+  recall = 0.7456224514272007
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 75.22
+Epoch: 2, Step: 1638 / 1828, used_time = 2602.78s, loss = 0.849390
+***** Eval results *****
+  accuracy = 0.8481924019607843
+  eval_loss = 0.5553489511747376
+  f1 = 0.7592154004979655
+  precision = 0.7689752737114036
+  recall = 0.7497001679059726
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 75.92
+Epoch: 2, Step: 1820 / 1828, used_time = 2693.30s, loss = 0.832455
+***** Eval results *****
+  accuracy = 0.8528390522875817
+  eval_loss = 0.5225201479701045
+  f1 = 0.7694192599852978
+  precision = 0.7863761582769847
+  recall = 0.7531782201966899
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=2): 76.94
+Start epoch #3 (lr = 2e-05)...
+Epoch: 3, Step: 182 / 1828, used_time = 2786.70s, loss = 0.813508
+***** Eval results *****
+  accuracy = 0.8461499183006536
+  eval_loss = 0.5680875961175736
+  f1 = 0.754171577445568
+  precision = 0.7810612874213029
+  recall = 0.7290717198368913
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 3, Step: 364 / 1828, used_time = 2878.31s, loss = 0.796264
+***** Eval results *****
+  accuracy = 0.8529411764705882
+  eval_loss = 0.5383947615335191
+  f1 = 0.7772664794119404
+  precision = 0.7746277546158428
+  recall = 0.779923242983929
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=3): 77.73
+Epoch: 3, Step: 546 / 1828, used_time = 2969.24s, loss = 0.780284
+***** Eval results *****
+  accuracy = 0.8517667483660131
+  eval_loss = 0.5423757483805317
+  f1 = 0.7741127348643007
+  precision = 0.7700249199003204
+  recall = 0.7782441832573759
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 3, Step: 728 / 1828, used_time = 3058.43s, loss = 0.765163
+***** Eval results *****
+  accuracy = 0.8573835784313726
+  eval_loss = 0.5073205115261421
+  f1 = 0.7786268875710705
+  precision = 0.7941139792991645
+  recall = 0.7637323099064524
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:date_of_death, label = per:city_of_death ✘
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=3): 77.86
+Epoch: 3, Step: 910 / 1828, used_time = 3148.18s, loss = 0.751136
+***** Eval results *****
+  accuracy = 0.8565665849673203
+  eval_loss = 0.5233586105378041
+  f1 = 0.7826920771904591
+  precision = 0.7822232870148539
+  recall = 0.7831614295994244
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=3): 78.27
+Epoch: 3, Step: 1092 / 1828, used_time = 3238.82s, loss = 0.737617
+***** Eval results *****
+  accuracy = 0.8623876633986928
+  eval_loss = 0.5128647233633434
+  f1 = 0.7886959734022904
+  precision = 0.8103491902834008
+  recall = 0.7681698248980571
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=3): 78.87
+Epoch: 3, Step: 1274 / 1828, used_time = 3328.21s, loss = 0.724818
+***** Eval results *****
+  accuracy = 0.8588133169934641
+  eval_loss = 0.5019036294782863
+  f1 = 0.7862275449101797
+  precision = 0.7850992585505859
+  recall = 0.7873590789158071
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 3, Step: 1456 / 1828, used_time = 3416.98s, loss = 0.712620
+***** Eval results *****
+  accuracy = 0.8621323529411765
+  eval_loss = 0.5017296815278873
+  f1 = 0.7952126060022854
+  precision = 0.7975630353480516
+  recall = 0.7928759894459103
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=3): 79.52
+Epoch: 3, Step: 1638 / 1828, used_time = 3506.44s, loss = 0.700935
+***** Eval results *****
+  accuracy = 0.8619791666666666
+  eval_loss = 0.48212994457362524
+  f1 = 0.7945287659727637
+  precision = 0.7948625615172248
+  recall = 0.7941952506596306
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 3, Step: 1820 / 1828, used_time = 3595.93s, loss = 0.690367
+***** Eval results *****
+  accuracy = 0.8647875816993464
+  eval_loss = 0.49042934686968137
+  f1 = 0.7951036476594698
+  precision = 0.8161384013132972
+  recall = 0.7751259294794914
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #4 (lr = 2e-05)...
+Epoch: 4, Step: 182 / 1828, used_time = 3688.03s, loss = 0.677899
+***** Eval results *****
+  accuracy = 0.8613153594771242
+  eval_loss = 0.5217518650628383
+  f1 = 0.7943778020113899
+  precision = 0.8026444662095984
+  recall = 0.7862796833773087
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 4, Step: 364 / 1828, used_time = 3778.59s, loss = 0.666325
+***** Eval results *****
+  accuracy = 0.8626429738562091
+  eval_loss = 0.5095053799328656
+  f1 = 0.7970041941282204
+  precision = 0.7963362068965517
+  recall = 0.7976733029503478
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=4): 79.70
+Epoch: 4, Step: 546 / 1828, used_time = 3869.96s, loss = 0.655305
+***** Eval results *****
+  accuracy = 0.8598856209150327
+  eval_loss = 0.5249621481604241
+  f1 = 0.7930561355365983
+  precision = 0.7889614243323442
+  recall = 0.797193571599904
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 4, Step: 728 / 1828, used_time = 3959.07s, loss = 0.644896
+***** Eval results *****
+  accuracy = 0.8665236928104575
+  eval_loss = 0.5185386564375626
+  f1 = 0.7976871425018651
+  precision = 0.8281693777433514
+  recall = 0.7693691532741664
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=4): 79.77
+Epoch: 4, Step: 910 / 1828, used_time = 4049.06s, loss = 0.634755
+***** Eval results *****
+  accuracy = 0.8680044934640523
+  eval_loss = 0.522575983515898
+  f1 = 0.8045360321911962
+  precision = 0.8182043650793651
+  recall = 0.7913168625569681
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=4): 80.45
+Epoch: 4, Step: 1092 / 1828, used_time = 4140.19s, loss = 0.625301
+***** Eval results *****
+  accuracy = 0.8681066176470589
+  eval_loss = 0.4996387286209106
+  f1 = 0.8026129290688359
+  precision = 0.8254531626315122
+  recall = 0.7810026385224275
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 4, Step: 1274 / 1828, used_time = 4229.83s, loss = 0.616071
+***** Eval results *****
+  accuracy = 0.8700980392156863
+  eval_loss = 0.4753809377758039
+  f1 = 0.8117597547045031
+  precision = 0.8138637733574442
+  recall = 0.8096665867114415
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=4): 81.18
+Epoch: 4, Step: 1456 / 1828, used_time = 4320.90s, loss = 0.607127
+***** Eval results *****
+  accuracy = 0.8703533496732027
+  eval_loss = 0.4899019700371557
+  f1 = 0.8089253969226997
+  precision = 0.8273354231974922
+  recall = 0.7913168625569681
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 4, Step: 1638 / 1828, used_time = 4411.87s, loss = 0.598674
+***** Eval results *****
+  accuracy = 0.8653492647058824
+  eval_loss = 0.48763473387320644
+  f1 = 0.8068046633357125
+  precision = 0.8003304224687279
+  recall = 0.8133845046773807
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 4, Step: 1820 / 1828, used_time = 4502.99s, loss = 0.590392
+***** Eval results *****
+  accuracy = 0.8682598039215687
+  eval_loss = 0.4742260400656294
+  f1 = 0.8105742716700636
+  precision = 0.8102828379674017
+  recall = 0.810865915087551
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #5 (lr = 2e-05)...
+Epoch: 5, Step: 182 / 1828, used_time = 4595.25s, loss = 0.581361
+***** Eval results *****
+  accuracy = 0.8720383986928104
+  eval_loss = 0.5039103268615268
+  f1 = 0.8159378979926011
+  precision = 0.8252975095080358
+  recall = 0.806788198608779
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=5): 81.59
+Epoch: 5, Step: 364 / 1828, used_time = 4686.11s, loss = 0.572690
+***** Eval results *****
+  accuracy = 0.8686683006535948
+  eval_loss = 0.5408450270747291
+  f1 = 0.8092854989448297
+  precision = 0.813750454710804
+  recall = 0.8048692732070041
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 546 / 1828, used_time = 4777.34s, loss = 0.564457
+***** Eval results *****
+  accuracy = 0.8723447712418301
+  eval_loss = 0.5348596618924704
+  f1 = 0.8130534398414762
+  precision = 0.8404813724235053
+  recall = 0.7873590789158071
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 728 / 1828, used_time = 4865.38s, loss = 0.556774
+***** Eval results *****
+  accuracy = 0.8697916666666666
+  eval_loss = 0.5137391558610925
+  f1 = 0.8117511100298036
+  precision = 0.8235221522892756
+  recall = 0.8003118253777884
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 910 / 1828, used_time = 4953.87s, loss = 0.549211
+***** Eval results *****
+  accuracy = 0.8687704248366013
+  eval_loss = 0.5242425712689854
+  f1 = 0.8104254044337927
+  precision = 0.8097461685823755
+  recall = 0.8111057807627728
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 1092 / 1828, used_time = 5042.28s, loss = 0.542011
+***** Eval results *****
+  accuracy = 0.8680555555555556
+  eval_loss = 0.5163250402303936
+  f1 = 0.8121875743870507
+  precision = 0.8060477202929365
+  recall = 0.8184216838570401
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 1274 / 1828, used_time = 5131.40s, loss = 0.534776
+***** Eval results *****
+  accuracy = 0.8733149509803921
+  eval_loss = 0.5027713090808319
+  f1 = 0.8181708055723804
+  precision = 0.8264806656877142
+  recall = 0.8100263852242744
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=5): 81.82
+Epoch: 5, Step: 1456 / 1828, used_time = 5221.66s, loss = 0.527604
+***** Eval results *****
+  accuracy = 0.8735191993464052
+  eval_loss = 0.514156318388368
+  f1 = 0.8176406268983112
+  precision = 0.828409650418513
+  recall = 0.8071479971216119
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 1638 / 1828, used_time = 5310.94s, loss = 0.521093
+***** Eval results *****
+  accuracy = 0.8688214869281046
+  eval_loss = 0.5246200350880185
+  f1 = 0.8129070455891059
+  precision = 0.8027362020579981
+  recall = 0.8233389301990885
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 5, Step: 1820 / 1828, used_time = 5400.74s, loss = 0.514727
+***** Eval results *****
+  accuracy = 0.872140522875817
+  eval_loss = 0.5137283085218443
+  f1 = 0.8158924205378973
+  precision = 0.8319621042134131
+  recall = 0.8004317582153994
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #6 (lr = 2e-05)...
+Epoch: 6, Step: 182 / 1828, used_time = 5492.90s, loss = 0.507766
+***** Eval results *****
+  accuracy = 0.8716299019607843
+  eval_loss = 0.533730204743668
+  f1 = 0.8168706823415343
+  precision = 0.8255756981871631
+  recall = 0.8083473254977213
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 364 / 1828, used_time = 5583.32s, loss = 0.501223
+***** Eval results *****
+  accuracy = 0.870812908496732
+  eval_loss = 0.5491508404858215
+  f1 = 0.8153364632237873
+  precision = 0.8183905268245529
+  recall = 0.8123051091388822
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 546 / 1828, used_time = 5673.47s, loss = 0.494819
+***** Eval results *****
+  accuracy = 0.8722426470588235
+  eval_loss = 0.5351930409548135
+  f1 = 0.817334856043758
+  precision = 0.819255331967707
+  recall = 0.8154233629167666
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 728 / 1828, used_time = 5763.97s, loss = 0.488764
+***** Eval results *****
+  accuracy = 0.8702512254901961
+  eval_loss = 0.5382162970399448
+  f1 = 0.8177287916984229
+  precision = 0.799862369537791
+  recall = 0.8364116094986808
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 910 / 1828, used_time = 5855.00s, loss = 0.483005
+***** Eval results *****
+  accuracy = 0.8740808823529411
+  eval_loss = 0.5160893926585666
+  f1 = 0.8197943599302506
+  precision = 0.8220185698782105
+  recall = 0.8175821539937634
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=6): 81.98
+Epoch: 6, Step: 1092 / 1828, used_time = 5946.19s, loss = 0.477326
+***** Eval results *****
+  accuracy = 0.8735191993464052
+  eval_loss = 0.5419521515768971
+  f1 = 0.8196522687344763
+  precision = 0.8281307381564451
+  recall = 0.8113456464379947
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 1274 / 1828, used_time = 6035.08s, loss = 0.471695
+***** Eval results *****
+  accuracy = 0.8753574346405228
+  eval_loss = 0.551936716014775
+  f1 = 0.8214416392242956
+  precision = 0.8356079404466501
+  recall = 0.8077476613096666
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=6): 82.14
+Epoch: 6, Step: 1456 / 1828, used_time = 6125.50s, loss = 0.466312
+***** Eval results *****
+  accuracy = 0.8726511437908496
+  eval_loss = 0.5302416921891515
+  f1 = 0.8204514159133091
+  precision = 0.8191273161984459
+  recall = 0.8217798033101463
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 1638 / 1828, used_time = 6213.99s, loss = 0.461150
+***** Eval results *****
+  accuracy = 0.8755106209150327
+  eval_loss = 0.5572995018652257
+  f1 = 0.8195577701650577
+  precision = 0.8525333678890761
+  recall = 0.7890381386423603
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 6, Step: 1820 / 1828, used_time = 6302.49s, loss = 0.456036
+***** Eval results *****
+  accuracy = 0.8712724673202614
+  eval_loss = 0.5403382523058384
+  f1 = 0.8184324065196548
+  precision = 0.8178443113772456
+  recall = 0.8190213480450947
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #7 (lr = 2e-05)...
+Epoch: 7, Step: 182 / 1828, used_time = 6393.22s, loss = 0.450519
+***** Eval results *****
+  accuracy = 0.8743361928104575
+  eval_loss = 0.5546191699948966
+  f1 = 0.8208955223880597
+  precision = 0.830672888015717
+  recall = 0.8113456464379947
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 364 / 1828, used_time = 6482.54s, loss = 0.445377
+***** Eval results *****
+  accuracy = 0.8738255718954249
+  eval_loss = 0.5626273607542994
+  f1 = 0.8204571497497134
+  precision = 0.8251850054591775
+  recall = 0.8157831614295994
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 546 / 1828, used_time = 6571.52s, loss = 0.440389
+***** Eval results *****
+  accuracy = 0.8724979575163399
+  eval_loss = 0.5841998295840242
+  f1 = 0.8163315051797684
+  precision = 0.8297819623389494
+  recall = 0.8033101463180619
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 728 / 1828, used_time = 6662.30s, loss = 0.435493
+***** Eval results *****
+  accuracy = 0.872140522875817
+  eval_loss = 0.5533762171687985
+  f1 = 0.8195291024261981
+  precision = 0.8166984278227728
+  recall = 0.822379467498201
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 910 / 1828, used_time = 6751.96s, loss = 0.430779
+***** Eval results *****
+  accuracy = 0.871374591503268
+  eval_loss = 0.5631764992581546
+  f1 = 0.8193529237162362
+  precision = 0.8112142941107323
+  recall = 0.8276565123530822
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 1092 / 1828, used_time = 6842.40s, loss = 0.426134
+***** Eval results *****
+  accuracy = 0.8745915032679739
+  eval_loss = 0.5673454694352509
+  f1 = 0.8248310507744753
+  precision = 0.822617201479184
+  recall = 0.8270568481650276
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=7): 82.48
+Epoch: 7, Step: 1274 / 1828, used_time = 6933.71s, loss = 0.421707
+***** Eval results *****
+  accuracy = 0.8753063725490197
+  eval_loss = 0.5687920944278244
+  f1 = 0.8240875912408759
+  precision = 0.8360898543569489
+  recall = 0.8124250419764931
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 1456 / 1828, used_time = 7024.55s, loss = 0.417273
+***** Eval results *****
+  accuracy = 0.8751021241830066
+  eval_loss = 0.5714196047206939
+  f1 = 0.8252207110474826
+  precision = 0.8209114645145976
+  recall = 0.8295754377548573
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=7): 82.52
+Epoch: 7, Step: 1638 / 1828, used_time = 7116.17s, loss = 0.412974
+***** Eval results *****
+  accuracy = 0.8767361111111112
+  eval_loss = 0.5845913222178305
+  f1 = 0.8234715821812596
+  precision = 0.8442736550333879
+  recall = 0.8036699448308947
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 7, Step: 1820 / 1828, used_time = 7204.09s, loss = 0.408837
+***** Eval results *****
+  accuracy = 0.8746936274509803
+  eval_loss = 0.5631426841954951
+  f1 = 0.8245508259978295
+  precision = 0.8290494665373423
+  recall = 0.8201007435835932
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #8 (lr = 2e-05)...
+Epoch: 8, Step: 182 / 1828, used_time = 7295.45s, loss = 0.404462
+***** Eval results *****
+  accuracy = 0.8739276960784313
+  eval_loss = 0.5619066719078379
+  f1 = 0.823860236927127
+  precision = 0.8219914040114613
+  recall = 0.8257375869513073
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 364 / 1828, used_time = 7385.12s, loss = 0.400248
+***** Eval results *****
+  accuracy = 0.8763786764705882
+  eval_loss = 0.5819026839408074
+  f1 = 0.827286447328705
+  precision = 0.8328673878692111
+  recall = 0.8217798033101463
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=8): 82.73
+Epoch: 8, Step: 546 / 1828, used_time = 7476.30s, loss = 0.396170
+***** Eval results *****
+  accuracy = 0.8771446078431373
+  eval_loss = 0.5828471801158503
+  f1 = 0.8260232131948687
+  precision = 0.84175796812749
+  recall = 0.810865915087551
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 728 / 1828, used_time = 7567.61s, loss = 0.392153
+***** Eval results *****
+  accuracy = 0.879187091503268
+  eval_loss = 0.5876062680477142
+  f1 = 0.8297703879651622
+  precision = 0.8429649795817349
+  recall = 0.8169824898057088
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+!!! Best dev f1 (lr=2e-05, epoch=8): 82.98
+Epoch: 8, Step: 910 / 1828, used_time = 7659.35s, loss = 0.388362
+***** Eval results *****
+  accuracy = 0.8761744281045751
+  eval_loss = 0.5806037849195764
+  f1 = 0.8265447325672344
+  precision = 0.8292889049861162
+  recall = 0.8238186615495323
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 1092 / 1828, used_time = 7747.25s, loss = 0.384606
+***** Eval results *****
+  accuracy = 0.8771956699346405
+  eval_loss = 0.5855935433745579
+  f1 = 0.8276069558938564
+  precision = 0.8304552590266876
+  recall = 0.8247781242504197
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 1274 / 1828, used_time = 7835.95s, loss = 0.380917
+***** Eval results *****
+  accuracy = 0.8747957516339869
+  eval_loss = 0.5810644257634123
+  f1 = 0.8240033672058205
+  precision = 0.8262389967442422
+  recall = 0.8217798033101463
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 1456 / 1828, used_time = 7924.57s, loss = 0.377255
+***** Eval results *****
+  accuracy = 0.8751021241830066
+  eval_loss = 0.5835635100607
+  f1 = 0.8253892215568862
+  precision = 0.8242047357091605
+  recall = 0.8265771168145838
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:origin, label = per:religion ✘
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 1638 / 1828, used_time = 8012.19s, loss = 0.373717
+***** Eval results *****
+  accuracy = 0.8761744281045751
+  eval_loss = 0.592112974129812
+  f1 = 0.8269057216773962
+  precision = 0.8296510925992998
+  recall = 0.8241784600623651
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 8, Step: 1820 / 1828, used_time = 8100.72s, loss = 0.370263
+***** Eval results *****
+  accuracy = 0.8784211601307189
+  eval_loss = 0.5878972157796395
+  f1 = 0.8288353999513738
+  precision = 0.840276066058664
+  recall = 0.8177020868313745
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Start epoch #9 (lr = 2e-05)...
+Epoch: 9, Step: 182 / 1828, used_time = 8193.07s, loss = 0.366657
+***** Eval results *****
+  accuracy = 0.8776041666666666
+  eval_loss = 0.5940817001403547
+  f1 = 0.8284281138574968
+  precision = 0.8349372639785602
+  recall = 0.8220196689853682
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 364 / 1828, used_time = 8283.79s, loss = 0.363204
+***** Eval results *****
+  accuracy = 0.8759191176470589
+  eval_loss = 0.5878060475323544
+  f1 = 0.8267981717584797
+  precision = 0.8291917973462002
+  recall = 0.824418325737587
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 546 / 1828, used_time = 8374.23s, loss = 0.359838
+***** Eval results *****
+  accuracy = 0.8772467320261438
+  eval_loss = 0.5955234012913471
+  f1 = 0.8279187511301308
+  precision = 0.8321822367623894
+  recall = 0.8236987287119213
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 728 / 1828, used_time = 8462.42s, loss = 0.356557
+***** Eval results *****
+  accuracy = 0.8780126633986928
+  eval_loss = 0.5894673263404543
+  f1 = 0.8291123974915581
+  precision = 0.8337375697307785
+  recall = 0.8245382585751979
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 910 / 1828, used_time = 8550.28s, loss = 0.353418
+***** Eval results *****
+  accuracy = 0.8783700980392157
+  eval_loss = 0.5993898452816567
+  f1 = 0.8284340575740976
+  precision = 0.8409736809588533
+  recall = 0.8162628927800432
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 1092 / 1828, used_time = 8638.76s, loss = 0.350320
+***** Eval results *****
+  accuracy = 0.8762254901960784
+  eval_loss = 0.5928021575601199
+  f1 = 0.8261785778794629
+  precision = 0.8295248458469351
+  recall = 0.8228591988486448
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 1274 / 1828, used_time = 8727.10s, loss = 0.347245
+***** Eval results *****
+  accuracy = 0.8760212418300654
+  eval_loss = 0.5922163117576537
+  f1 = 0.8255191092386398
+  precision = 0.8285610728524828
+  recall = 0.8224994003358119
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 1456 / 1828, used_time = 8816.83s, loss = 0.344211
+***** Eval results *****
+  accuracy = 0.8761744281045751
+  eval_loss = 0.5917808732483536
+  f1 = 0.8259352820882955
+  precision = 0.828426640926641
+  recall = 0.8234588630366995
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 1638 / 1828, used_time = 8905.78s, loss = 0.341227
+***** Eval results *****
+  accuracy = 0.8762765522875817
+  eval_loss = 0.593807139219351
+  f1 = 0.8260345035589336
+  precision = 0.8309466019417475
+  recall = 0.8211801391220916
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = org:shareholders ✘
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+Epoch: 9, Step: 1820 / 1828, used_time = 8994.88s, loss = 0.338348
+***** Eval results *****
+  accuracy = 0.8767871732026143
+  eval_loss = 0.5932168687642034
+  f1 = 0.8268755649291956
+  precision = 0.8309313309918857
+  recall = 0.8228591988486448
+First 20 predictions:
+pred = per:title, label = per:title ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:shareholders, label = org:shareholders ✓
+pred = per:employee_of, label = per:employee_of ✓
+pred = per:origin, label = per:origin ✓
+pred = per:city_of_death, label = per:city_of_death ✓
+pred = per:date_of_death, label = per:date_of_death ✓
+pred = org:top_members/employees, label = org:top_members/employees ✓
+pred = per:identity, label = per:identity ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+pred = org:city_of_branch, label = org:city_of_branch ✓
+pred = per:religion, label = per:religion ✓
+pred = no_relation, label = no_relation ✓
+pred = per:city_of_birth, label = per:city_of_birth ✓
+pred = no_relation, label = no_relation ✓
+pred = no_relation, label = no_relation ✓
+***** Eval results *****
+  accuracy = 0.879187091503268
+  eval_loss = 0.5876062571868496
+  f1 = 0.8297703879651622
+  precision = 0.8429649795817349
+  recall = 0.8169824898057088
