@@ -53,24 +53,22 @@ class DataProcessor(object):
             data = json.load(reader)
         return data
 
-    def get_train_examples(self, data_dir):
+    def get_train_examples(self, train_file):
         """See base class."""
-        return self._create_examples(
-            self._read_json(os.path.join(data_dir, "train.json")), "train")
+        return self._create_examples(self._read_json(train_file), "train")
 
-    def get_dev_examples(self, data_dir):
+    def get_dev_examples(self, dev_file):
         """See base class."""
-        return self._create_examples(
-            self._read_json(os.path.join(data_dir, "dev.json")), "dev")
+        return self._create_examples(self._read_json(dev_file), "dev")
 
-    def get_test_examples(self, data_dir):
+    def get_test_examples(self, test_file):
         """See base class."""
-        raw_data = self._read_json(os.path.join(data_dir, "test.json"))
+        raw_data = self._read_json(test_file)
         return self._create_examples(raw_data, "test"), np.array(raw_data)
 
-    def get_labels(self, data_dir, negative_label="no_relation"):
+    def get_labels(self, train_file, negative_label="no_relation"):
         """See base class."""
-        dataset = self._read_json(os.path.join(data_dir, "train.json"))
+        dataset = self._read_json(train_file)
         count = Counter()
         for example in dataset:
             count[example['relation']] += 1
@@ -367,7 +365,7 @@ def main(args):
     logger.info("device: {}, n_gpu: {}".format(device, n_gpu))
 
     processor = DataProcessor()
-    label_list = processor.get_labels(args.data_dir, args.negative_label)
+    label_list = processor.get_labels(args.train_file, args.negative_label)
     label2id = {label: i for i, label in enumerate(label_list)}
     print(label2id)
 
@@ -377,7 +375,7 @@ def main(args):
 
     special_tokens = {}
     if args.do_eval and not args.eval_test:
-        eval_examples = processor.get_dev_examples(args.data_dir)
+        eval_examples = processor.get_dev_examples(args.dev_file)
         eval_features = convert_examples_to_features(
             eval_examples, label2id, args.max_seq_length, tokenizer, special_tokens, args.feature_mode)
         logger.info("***** Dev *****")
@@ -392,7 +390,7 @@ def main(args):
         eval_label_ids = all_label_ids
 
     if args.do_train:
-        train_examples = processor.get_train_examples(args.data_dir)
+        train_examples = processor.get_train_examples(args.train_file)
         train_features = convert_examples_to_features(
                 train_examples, label2id, args.max_seq_length, tokenizer, special_tokens, args.feature_mode)
 
@@ -507,7 +505,7 @@ def main(args):
 
     if args.do_eval:
         if args.eval_test:
-            eval_examples, raw_data = processor.get_test_examples(args.data_dir)
+            eval_examples, raw_data = processor.get_test_examples(args.test_file)
             eval_features = convert_examples_to_features(
                 eval_examples, label2id, args.max_seq_length, tokenizer, special_tokens, args.feature_mode)
             logger.info("***** Test *****")
@@ -536,8 +534,12 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default=None, type=str, required=True)
-    parser.add_argument("--data_dir", default=None, type=str, required=True,
-                        help="The input data dir. Should contain the .tsv files (or other data files) for the task.")
+    parser.add_argument("--train_file", default=None, type=str, required=True,
+                        help="The train file for the task.")
+    parser.add_argument("--dev_file", default=None, type=str, required=True,
+                        help="The dev file for the task.")
+    parser.add_argument("--test_file", default=None, type=str, required=True,
+                        help="The test file for the task.")
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--eval_per_epoch", default=10, type=int,

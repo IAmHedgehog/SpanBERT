@@ -1,7 +1,9 @@
 CUDA_VISIBLE_DEVICES=0,1,2,3 python code/run_tacred.py \
+  --do_train \
   --do_eval \
-  --eval_test \
-  --data_dir datasets/retacred \
+  --train_file datasets/retacred/train.json \
+  --dev_file datasets/retacred/dev.json \
+  --test_file datasets/retacred/test.json \
   --model spanbert-base-cased \
   --train_batch_size 32 \
   --eval_batch_size 32 \

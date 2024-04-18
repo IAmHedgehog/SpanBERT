@@ -7,22 +7,20 @@ from llm import LLM
 import aug
 
 
-def get_aug_sents(train_data):
-    data = json.load(open(train_data))
-
-    re_stats = defaultdict(int)
-    for sent in data:
-        re_stats[sent['relation']] += 1
-    ignore_keys = set(['org:website', 'per:city_of_birth'])
-    aug_keys = set()
-    for key, value in sorted(re_stats.items(), key=lambda x: x[1]):
-        if value < 300 and key not in ignore_keys:
-            # print(f'---{key}: {value}')
-            aug_keys.add(key)
+def get_aug_sents(data_file, aug_keys=None):
+    data = json.load(open(data_file))
+    if aug_keys is None:
+        re_stats = defaultdict(int)
+        for sent in data:
+            re_stats[sent['relation']] += 1
+        aug_keys = set()
+        for key, value in sorted(re_stats.items(), key=lambda x: x[1]):
+            if value < 300:
+                aug_keys.add(key)
     print(aug_keys)
     target_sents = [sent for sent in data if sent['relation'] in aug_keys]
     print(len(target_sents))
-    return target_sents
+    return target_sents, aug_keys
 
 
 def aug_sents(llm, aug_sents, post_fix='1', save_folder='augs'):
@@ -67,6 +65,10 @@ if __name__ == '__main__':
     post_fix = f'{device}'
     print(args, '------- using post_fix', post_fix)
     llm = LLM(f'cuda:{device}')
-    train_data = 'datasets/retacred/train.json'
-    sents = get_aug_sents(train_data)
-    aug_sents(llm, sents, post_fix)
+    aug_keys = None
+    for key in ['train', 'dev', 'test']:
+        data_file = f'datasets/retacred/{key}.json'
+        aug_folder = f'augs_{key}'
+        print(f'-------> working on {key} data, and output to {aug_folder}')
+        sents, aug_keys = get_aug_sents(data_file, aug_keys)
+        aug_sents(llm, sents, post_fix, aug_folder)
