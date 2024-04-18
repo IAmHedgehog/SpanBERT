@@ -44,15 +44,7 @@ def aug_sents(llm, aug_sents, post_fix='1', save_folder='augs'):
         if os.path.exists(save_path):
             print(f'skip {relation} due to {save_path} exists')
             continue
-        rewrited_sents = []
-        for encoded_sent, head_ent_type, tail_ent_type, head_ent, tail_ent in tqdm(cur_encoded_sents):
-            message = template % encoded_sent
-            rewrited_sent = aug.rewrite_sent(llm, message)
-            if rewrited_sent:
-                # print('*' * 30)
-                # print(encoded_sent)
-                # print(rewrited_sent)
-                rewrited_sents.append((rewrited_sent, head_ent_type, tail_ent_type, head_ent, tail_ent))
+        rewrited_sents = aug.rewrite_sents(llm, template, cur_encoded_sents, post_fix)
         print(f'--------> {len(rewrited_sents)} sentences generated')
         print('*' * 50)
         with open(save_path, 'w') as af:
