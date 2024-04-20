@@ -1,5 +1,4 @@
 Relation,TestSupport,TrainSupport,Prec,Recall,F1
-overall,5648,19704,0.8357,0.8169,0.8262
 per:country_of_death,14,6,0,0.0,0
 org:dissolved,5,23,0,0.0,0
 per:country_of_birth,0,25,0.0,0.0,0.0
@@ -39,3 +38,4 @@ org:top_members/employees,295,1475,0.9038,0.8915,0.8976
 per:employee_of,332,2136,0.7838,0.7861,0.785
 per:title,523,2626,0.9145,0.9407,0.9274
 per:identity,2036,5320,0.8686,0.9062,0.887
+overall,5648,19704,0.8357,0.8169,0.8262
