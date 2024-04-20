@@ -10,7 +10,8 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python code/run_tacred.py \
   --learning_rate 2e-5 \
   --num_train_epochs 10 \
   --max_seq_length 128 \
-  --output_dir tacred_dir_aug_train
+  --output_dir tacred_dir_aug_train \
+  --seed 23
 
 
 CUDA_VISIBLE_DEVICES=0,1,2,3 python code/run_tacred.py \
