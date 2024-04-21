@@ -5,6 +5,7 @@ import random
 import time
 import json
 from tqdm import tqdm
+from collections import defaultdict
 import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
@@ -30,6 +31,7 @@ class InputExample(object):
 
     def __init__(self, guid, sentence, span1, span2, ner1, ner2, label):
         self.guid = guid
+        self.org_id = guid.split('_')[0]
         self.sentence = sentence
         self.span1 = span1
         self.span2 = span2
@@ -131,6 +133,8 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
             special_tokens[w] = "[unused%d]" % (len(special_tokens) + 1)
         return special_tokens[w]
 
+    unique_eids = sorted(set([example.org_id for example in examples]))
+
     num_tokens = 0
     num_fit_examples = 0
     features = []
@@ -209,6 +213,7 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
         input_mask += padding
         segment_ids += padding
         label_id = label2id[example.label]
+        eid = unique_eids.index(example.org_id)
         assert len(input_ids) == max_seq_length
         assert len(input_mask) == max_seq_length
         assert len(segment_ids) == max_seq_length
@@ -218,7 +223,8 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
                               input_mask=input_mask,
                               segment_ids=segment_ids,
                               label_id=label_id,
-                              subject_id=subject_id))
+                              subject_id=subject_id,
+                              eid=eid))
     logger.info("Average #tokens: %.2f" % (num_tokens * 1.0 / len(examples)))
     logger.info("%d (%.2f %%) examples can fit max_seq_length = %d" % (num_fit_examples,
                 num_fit_examples * 100.0 / len(examples), max_seq_length))
@@ -246,9 +252,19 @@ def simple_accuracy(preds, labels):
     return (preds == labels).mean()
 
 
-def compute_f1(preds, labels):
+def compute_f1(preds, labels, eids):
     n_gold = n_pred = n_correct = 0
-    for pred, label in zip(preds, labels):
+    aggreated = defaultdict(list)
+    for pred, label, eid in zip(preds, labels, eids):
+        aggreated[eid].append((pred, label))
+
+    for _, values in aggreated.items():
+        cur_preds = [value[0] for value in values]
+        cur_labels = [value[1] for value in values]
+        assert len(set(cur_labels)) == 1
+        label = cur_labels[0]
+        pred = max(set(cur_preds), key=cur_preds.count)
+
         if pred != 0:
             n_pred += 1
         if label != 0:
@@ -313,11 +329,12 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
     eval_loss = 0
     nb_eval_steps = 0
     preds = []
-    for input_ids, input_mask, segment_ids, label_ids in eval_dataloader:
+    for input_ids, input_mask, segment_ids, eids, label_ids in tqdm(eval_dataloader):
         input_ids = input_ids.to(device)
         input_mask = input_mask.to(device)
         segment_ids = segment_ids.to(device)
         label_ids = label_ids.to(device)
+        # eids = eids.to(device)
         with torch.no_grad():
             logits = model(input_ids, segment_ids, input_mask, labels=None)
         loss_fct = CrossEntropyLoss()
@@ -332,7 +349,7 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
 
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds[0], axis=1).reshape(-1)
-    result = compute_f1(preds, eval_label_ids.numpy())
+    result = compute_f1(preds, eval_label_ids.numpy(), eids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
     result['eval_loss'] = eval_loss
     if verbose:
@@ -385,7 +402,8 @@ def main(args):
         all_input_mask = torch.tensor([f.input_mask for f in eval_features], dtype=torch.long)
         all_segment_ids = torch.tensor([f.segment_ids for f in eval_features], dtype=torch.long)
         all_label_ids = torch.tensor([f.label_id for f in eval_features], dtype=torch.long)
-        eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids)
+        all_eids = torch.tensor([f.eid for f in eval_features], dtype=torch.long)
+        eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
         eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size)
         eval_label_ids = all_label_ids
 
@@ -478,10 +496,10 @@ def main(args):
                             result['epoch'] = epoch
                             result['learning_rate'] = lr
                             result['batch_size'] = args.train_batch_size
-                            logger.info("First 20 predictions:")
-                            for pred, label in zip(preds[:20], eval_label_ids.numpy()[:20]):
-                                sign = u'\u2713' if pred == label else u'\u2718'
-                                logger.info("pred = %s, label = %s %s" % (id2label[pred], id2label[label], sign))
+                            # logger.info("First 20 predictions:")
+                            # for pred, label in zip(preds[:20], eval_label_ids.numpy()[:20]):
+                            #     sign = u'\u2713' if pred == label else u'\u2718'
+                            #     logger.info("pred = %s, label = %s %s" % (id2label[pred], id2label[label], sign))
                             if (best_result is None) or (result[args.eval_metric] > best_result[args.eval_metric]):
                                 best_result = result
                                 save_model = True
@@ -515,12 +533,13 @@ def main(args):
             all_input_mask = torch.tensor([f.input_mask for f in eval_features], dtype=torch.long)
             all_segment_ids = torch.tensor([f.segment_ids for f in eval_features], dtype=torch.long)
             all_label_ids = torch.tensor([f.label_id for f in eval_features], dtype=torch.long)
-            eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_label_ids)
+            all_eids = torch.tensor([f.eid for f in eval_features], dtype=torch.long)
+            eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
             eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size)
             eval_label_ids = all_label_ids
         else:
             raw_data = None
-        model = BertForSequenceClassification.from_pretrained(args.output_dir, num_labels=num_labels)
+        model = BertForSequenceClassification.from_pretrained(args.finetune_dir, num_labels=num_labels)
         model.to(device)
         preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, raw_data=raw_data)
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
@@ -540,6 +559,8 @@ if __name__ == "__main__":
                         help="The dev file for the task.")
     parser.add_argument("--test_file", default=None, type=str, required=True,
                         help="The test file for the task.")
+    parser.add_argument("--finetune_dir", default=None, type=str, required=True,
+                        help="The directory where the finetuned checkpoints stored.")
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--eval_per_epoch", default=10, type=int,

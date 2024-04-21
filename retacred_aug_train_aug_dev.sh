@@ -4,6 +4,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 python code/run_tacred.py \
   --train_file datasets/retacred_aug/train.json \
   --dev_file datasets/retacred_aug/dev.json \
   --test_file datasets/retacred/test.json \
+  --finetune_dir tacred_dir_aug_train_aug_dev \
   --model spanbert-base-cased \
   --train_batch_size 32 \
   --eval_batch_size 32 \
@@ -20,6 +21,7 @@ CUDA_VISIBLE_DEVICES=4,5,6,7 python code/run_tacred.py \
   --train_file datasets/retacred_aug/train.json \
   --dev_file datasets/retacred_aug/dev.json \
   --test_file datasets/retacred/test.json \
+  --finetune_dir tacred_dir_aug_train_aug_dev \
   --model spanbert-base-cased \
   --train_batch_size 32 \
   --eval_batch_size 32 \
