@@ -134,7 +134,6 @@ def convert_examples_to_features(examples, label2id, max_seq_length, tokenizer, 
         return special_tokens[w]
 
     unique_eids = sorted(set([example.org_id for example in examples]))
-
     num_tokens = 0
     num_fit_examples = 0
     features = []
@@ -258,11 +257,11 @@ def compute_f1(preds, labels, eids):
     for pred, label, eid in zip(preds, labels, eids):
         aggreated[eid].append((pred, label))
 
-    for _, values in aggreated.items():
+    for eid, values in aggreated.items():
         cur_preds = [value[0] for value in values]
         cur_labels = [value[1] for value in values]
         if len(set(cur_labels)) != 1:
-            print('=======>', cur_labels)
+            print('=======>', eid, cur_labels)
         assert len(set(cur_labels)) == 1
         label = cur_labels[0]
         pred = max(set(cur_preds), key=cur_preds.count)
