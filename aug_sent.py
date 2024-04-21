@@ -2,7 +2,6 @@ import os
 import sys
 import json
 from collections import defaultdict
-from tqdm import tqdm
 from llm import LLM
 import aug
 

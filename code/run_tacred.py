@@ -404,7 +404,7 @@ def main(args):
         all_label_ids = torch.tensor([f.label_id for f in eval_features], dtype=torch.long)
         all_eids = torch.tensor([f.eid for f in eval_features], dtype=torch.long)
         eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
-        eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size)
+        eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size, num_workers=16)
         eval_label_ids = all_label_ids
 
     if args.do_train:
@@ -535,7 +535,7 @@ def main(args):
             all_label_ids = torch.tensor([f.label_id for f in eval_features], dtype=torch.long)
             all_eids = torch.tensor([f.eid for f in eval_features], dtype=torch.long)
             eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
-            eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size)
+            eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size, num_workers=16)
             eval_label_ids = all_label_ids
         else:
             raw_data = None
