@@ -324,7 +324,7 @@ def compute_structure_errors(parts, preds, gold_labels):
     return structure_errors
 
 
-def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, verbose=True, raw_data=None):
+def evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labels, id2label, verbose=True, raw_data=None):
     model.eval()
     eval_loss = 0
     nb_eval_steps = 0
@@ -349,7 +349,7 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2labe
 
     eval_loss = eval_loss / nb_eval_steps
     preds = np.argmax(preds[0], axis=1).reshape(-1)
-    result = compute_f1(preds, eval_label_ids.numpy(), eids.numpy())
+    result = compute_f1(preds, eval_label_ids.numpy(), eval_eids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
     result['eval_loss'] = eval_loss
     if verbose:
@@ -406,6 +406,7 @@ def main(args):
         eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
         eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size, num_workers=16)
         eval_label_ids = all_label_ids
+        eval_eids = all_eids
 
     if args.do_train:
         train_examples = processor.get_train_examples(args.train_file)
@@ -490,7 +491,7 @@ def main(args):
                                      time.time() - start_time, tr_loss / nb_tr_steps))
                         save_model = False
                         if args.do_eval:
-                            preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label)
+                            preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labels, id2label)
                             model.train()
                             result['global_step'] = global_step
                             result['epoch'] = epoch
@@ -537,11 +538,12 @@ def main(args):
             eval_data = TensorDataset(all_input_ids, all_input_mask, all_segment_ids, all_eids, all_label_ids)
             eval_dataloader = DataLoader(eval_data, batch_size=args.eval_batch_size, num_workers=16)
             eval_label_ids = all_label_ids
+            eval_eids = all_eids
         else:
             raw_data = None
         model = BertForSequenceClassification.from_pretrained(args.finetune_dir, num_labels=num_labels)
         model.to(device)
-        preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, num_labels, id2label, raw_data=raw_data)
+        preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labels, id2label, raw_data=raw_data)
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
             for ex, pred in zip(eval_examples, preds):
                 f.write("%s\t%s\n" % (ex.guid, id2label[pred]))
