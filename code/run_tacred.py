@@ -261,6 +261,8 @@ def compute_f1(preds, labels, eids):
     for _, values in aggreated.items():
         cur_preds = [value[0] for value in values]
         cur_labels = [value[1] for value in values]
+        if len(set(cur_labels)) != 1:
+            print('=======>', cur_labels)
         assert len(set(cur_labels)) == 1
         label = cur_labels[0]
         pred = max(set(cur_preds), key=cur_preds.count)
