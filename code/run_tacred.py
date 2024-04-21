@@ -546,7 +546,10 @@ def main(args):
         model.to(device)
         preds, result = evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labels, id2label, raw_data=raw_data)
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
+            print('------->', args.output_dir)
             for ex, pred in zip(eval_examples, preds):
+                if ':' in ex.guid:
+                    import ipdb; ipdb.set_trace()
                 f.write("%s\t%s\n" % (ex.guid, id2label[pred]))
         with open(os.path.join(args.output_dir, "test_results.txt"), "w") as f:
             for key in sorted(result.keys()):
