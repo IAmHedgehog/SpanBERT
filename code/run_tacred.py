@@ -349,6 +349,7 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labe
                 preds[0], logits.detach().cpu().numpy(), axis=0)
 
     eval_loss = eval_loss / nb_eval_steps
+    save_class_loss(preds[0], eval_label_ids, id2label)
     preds = np.argmax(preds[0], axis=1).reshape(-1)
     result = compute_f1(preds, eval_label_ids.numpy(), eval_eids.numpy())
     result['accuracy'] = simple_accuracy(preds, eval_label_ids.numpy())
@@ -358,6 +359,18 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labe
         for key in sorted(result.keys()):
             logger.info("  %s = %s", key, str(result[key]))
     return preds, result
+
+
+def save_class_loss(preds, labels, id2label):
+    loss_func = CrossEntropyLoss(reduction='none')
+    losses = loss_func(torch.Tensor(preds), labels)
+    class_losses = defaultdict(list)
+    for loss, label in zip(losses, labels):
+        class_losses[label.cpu().item()].append(loss.cpu().item())
+    with open('val_loss.csv', 'w') as val_f:
+        for class_id, losses in sorted(class_losses.items(), key=lambda x: sum(x[1]) / len(x[1]), reverse=True):
+            val_f.write('%s,%s\n' % (id2label[class_id], sum(losses) / len(losses)))
+    return class_losses
 
 
 def main(args):
@@ -548,8 +561,6 @@ def main(args):
         with open(os.path.join(args.output_dir, "predictions.txt"), "w") as f:
             print('------->', args.output_dir)
             for ex, pred in zip(eval_examples, preds):
-                if ':' in ex.guid:
-                    import ipdb; ipdb.set_trace()
                 f.write("%s\t%s\n" % (ex.guid, id2label[pred]))
         with open(os.path.join(args.output_dir, "test_results.txt"), "w") as f:
             for key in sorted(result.keys()):
