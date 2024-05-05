@@ -10,6 +10,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 from collections import Counter
+from scipy import stats
 from torch.nn import CrossEntropyLoss
 from pytorch_pretrained_bert.file_utils import PYTORCH_PRETRAINED_BERT_CACHE, WEIGHTS_NAME, CONFIG_NAME
 from pytorch_pretrained_bert.modeling import BertForSequenceClassification
@@ -362,6 +363,18 @@ def evaluate(model, device, eval_dataloader, eval_label_ids, eval_eids, num_labe
 
 
 def save_class_loss(preds, labels, id2label):
+    class_logits = defaultdict(list)
+    for pred, label in zip(preds, labels):
+        if label.item() > 0:
+            class_logits[label.item()].append(pred[label])
+    with open('val_var.csv', 'w') as var_f:
+        for label_id, values in class_logits.items():
+            moninator = round(np.var(values), 4) * len(values)
+            demoninator = stats.chi2.ppf(0.05, len(values))
+            var = round(np.var(values), 4)
+            print(id2label[label_id], '======>', len(values), var, moninator, demoninator)
+            var_f.write('%s,%s,%s\n' % (id2label[label_id], var, moninator / demoninator))
+    import ipdb; ipdb.set_trace()
     loss_func = CrossEntropyLoss(reduction='none')
     losses = loss_func(torch.Tensor(preds), labels)
     class_losses = defaultdict(list)
